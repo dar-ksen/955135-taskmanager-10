@@ -1,7 +1,7 @@
 # Личный проект «Менеджер задач» [![Build status][travis-image]][travis-url]
 
 * Студент: [Владимир Сухов](https://up.htmlacademy.ru/ecmascript/10/user/955135).
-* Наставник: `Неизвестно`.
+*  Наставник: [Виталий Ковтун](https://up.htmlacademy.ru/ecmascript/10/user/79172).
 
 ---
 
