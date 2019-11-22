@@ -18,14 +18,11 @@ render(siteMainControlElement, getMenuTemplate());
 render(siteMainElement, getFilterTemplate());
 render(siteMainElement, getBoardTemplate());
 
-const tastListElement = siteMainElement.querySelector(`.js-board__tasks`);
-render(tastListElement, getTaskEditTemplate());
+const taskListElement = siteMainElement.querySelector(`.js-board__tasks`);
+render(taskListElement, getTaskEditTemplate());
 
-new Array(TASK_COUNT)
-  .fill(``)
-  .forEach(
-      () => render(tastListElement, getTaskTemplate())
-  );
+const tasksTemplate = new Array(TASK_COUNT).fill(getTaskTemplate()).join(``);
+render(taskListElement, tasksTemplate);
 
 const boardElement = siteMainElement.querySelector(`.js-board`);
 render(boardElement, getButtonLoadMoreTemplate());
