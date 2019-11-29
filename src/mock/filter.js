@@ -8,7 +8,7 @@ const generateFilters = (tasks) => {
     },
     {
       name: `overdue`,
-      count: tasks.filter(({dueDate}) => dueDate instanceof Date && dueDate < today).length,
+      count: tasks.filter(({dueDate}) => dueDate instanceof Date && dueDate <= today).length,
     },
     {
       name: `today`,
