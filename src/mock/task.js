@@ -1,3 +1,5 @@
+/* tags: [`homework`, `theory`, `practice`, `intensive`, `keks`] */
+
 const DefaultRepeatingDays = {
   'mo': false,
   'tu': false,
@@ -11,10 +13,10 @@ const DefaultRepeatingDays = {
 const Tasks = [
   {
     description: `Изучить теорию`,
-    dueDate: null,
+    dueDate: new Date(Date.UTC(2019, 11, 10, 3, 1, 0)),
     repeatingDays: { 'mo': false, 'tu': true, 'we': false, 'th': true, 'fr': false, 'sa': false, 'su': false },
-    tags: [`homework`, `theory`, `practice`, `intensive`, `keks`],
-    color: `black`,
+    tags: [`keks`],
+    color: `yellow`,
     isFavorite: true,
     isArchive: true
   },

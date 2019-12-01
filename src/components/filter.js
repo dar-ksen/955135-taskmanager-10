@@ -1,4 +1,4 @@
-const getFilterMarkup = (filter, isChecked) => {
+const getFilterListTemplate = (filter, isChecked) => {
   const { name, count } = filter;
 
   return (
@@ -16,7 +16,7 @@ const getFilterMarkup = (filter, isChecked) => {
 };
 
 export const getFilterTemplate = (filters) => {
-  const filtersMarkup = filters.map((filter, i) => getFilterMarkup(filter, i === 0)).join(`\n`);
+  const filtersMarkup = filters.map((filter, i) => getFilterListTemplate(filter, i === 0)).join(`\n`);
 
   return (`
   <section class="main__filter filter container">
