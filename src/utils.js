@@ -1,12 +1,11 @@
-const castTimeFormat = (value) => {
-  return value < 10 ? `0${value}` : String(value);
+const formatterOptions = {
+  hour12: true,
+  hour: `2-digit`,
+  minute: `2-digit`,
 };
 
-export const formatTime = (date) => {
-  const hours = castTimeFormat(date.getHours() % 12);
-  const minutes = castTimeFormat(date.getMinutes());
+const TimeFormatter = new Intl.DateTimeFormat(`en-US`, formatterOptions);
 
-  const interval = date.getHours() > 11 ? `pm` : `am`;
+const formatTime = (date) => TimeFormatter.format(date);
 
-  return `${hours}:${minutes} ${interval}`;
-};
+export {formatTime};
