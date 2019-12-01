@@ -1,11 +1,3 @@
-import { Colors } from '../const.js';
-
-const DescriptionItems = [
-  `Изучить теорию`,
-  `Сделать домашку`,
-  `Пройти интенсив на соточку`,
-];
-
 const DefaultRepeatingDays = {
   'mo': false,
   'tu': false,
@@ -16,64 +8,106 @@ const DefaultRepeatingDays = {
   'su': false,
 };
 
-const Tags = [
-  `homework`,
-  `theory`,
-  `practice`,
-  `intensive`,
-  `keks`
+const Tasks = [
+  {
+    description: `Изучить теорию`,
+    dueDate: null,
+    repeatingDays: { 'mo': false, 'tu': true, 'we': false, 'th': true, 'fr': false, 'sa': false, 'su': false },
+    tags: [`homework`, `theory`, `practice`, `intensive`, `keks`],
+    color: `black`,
+    isFavorite: true,
+    isArchive: true
+  },
+  {
+    description: `Сделать домашку`,
+    dueDate: new Date(Date.UTC(2019, 11, 1, 3, 1, 0)),
+    repeatingDays: DefaultRepeatingDays,
+    tags: [`homework`, `intensive`, `keks`],
+    color: `yellow`,
+    isFavorite: false,
+    isArchive: true
+  },
+  {
+    description: `Изучить теорию`,
+    dueDate: null,
+    repeatingDays: { 'mo': false, 'tu': true, 'we': false, 'th': true, 'fr': false, 'sa': false, 'su': false },
+    tags: [`homework`, `theory`, `practice`, `intensive`, `keks`],
+    color: `green`,
+    isFavorite: true,
+    isArchive: true
+  },
+  {
+    description: `Пройти интенсив на соточку`,
+    dueDate: new Date(Date.UTC(2019, 11, 5, 5, 45, 15)),
+    repeatingDays: DefaultRepeatingDays,
+    tags: [`homework`, `intensive`, `keks`],
+    color: `blue`,
+    isFavorite: true,
+    isArchive: true
+  },
+  {
+    description: `Пройти интенсив на соточку`,
+    dueDate: new Date(Date.UTC(2020, 1, 5, 5, 45, 15)),
+    repeatingDays: DefaultRepeatingDays,
+    tags: [`homework`, `intensive`, `keks`],
+    color: `blue`,
+    isFavorite: false,
+    isArchive: true
+  },
+  {
+    description: `Сделать домашку`,
+    dueDate: null,
+    repeatingDays: DefaultRepeatingDays,
+    tags: [`homework`, `intensive`, `keks`],
+    color: `pink`,
+    isFavorite: true,
+    isArchive: false
+  },
+  {
+    description: `Изучить теорию`,
+    dueDate: null,
+    repeatingDays: { 'mo': true, 'tu': true, 'we': false, 'th': false, 'fr': false, 'sa': false, 'su': false },
+    tags: [`homework`, `keks`],
+    color: `green`,
+    isFavorite: true,
+    isArchive: true
+  },
+  {
+    description: `Пройти интенсив на соточку`,
+    dueDate: new Date(Date.UTC(2019, 11, 1, 5, 45, 15)),
+    repeatingDays: DefaultRepeatingDays,
+    tags: [`homework`, `intensive`, `keks`],
+    color: `blue`,
+    isFavorite: false,
+    isArchive: true
+  },
+  {
+    description: `Сделать домашку`,
+    dueDate: null,
+    repeatingDays: DefaultRepeatingDays,
+    tags: [`intensive`, `keks`],
+    color: `black`,
+    isFavorite: true,
+    isArchive: false
+  },
+  {
+    description: `Изучить теорию`,
+    dueDate: null,
+    repeatingDays: { 'mo': true, 'tu': true, 'we': false, 'th': false, 'fr': false, 'sa': false, 'su': false },
+    tags: [],
+    color: `green`,
+    isFavorite: true,
+    isArchive: true
+  },
+  {
+    description: `Пройти интенсив на соточку`,
+    dueDate: new Date(Date.UTC(2019, 10, 5, 5, 45, 15)),
+    repeatingDays: DefaultRepeatingDays,
+    tags: [`homework`, `intensive`, `keks`],
+    color: `blue`,
+    isFavorite: false,
+    isArchive: true
+  },
 ];
 
-const getRandomArrayItem = (array) => {
-  const randomIndex = getRandomIntegerNumber(0, array.length);
-
-  return array[randomIndex];
-};
-
-const getRandomIntegerNumber = (min, max) => {
-  return min + Math.floor(max * Math.random());
-};
-
-const getRandomDate = () => {
-  const targetDate = new Date();
-  const sign = Math.random() > 0.5 ? 1 : -1;
-  const diffValue = sign * getRandomIntegerNumber(0, 7);
-
-  targetDate.setDate(targetDate.getDate() + diffValue);
-
-  return targetDate;
-};
-
-const generateRepeatingDays = () => {
-  return Object.assign({}, DefaultRepeatingDays, {
-    'mo': Math.random() > 0.5,
-  });
-};
-
-const generateTags = (tags) => {
-  return tags
-    .filter(() => Math.random() > 0.5)
-    .slice(0, 3);
-};
-
-const generateTask = () => {
-  const dueDate = Math.random() > 0.5 ? null : getRandomDate();
-
-  return {
-    description: getRandomArrayItem(DescriptionItems),
-    dueDate,
-    repeatingDays: dueDate ? DefaultRepeatingDays : generateRepeatingDays(),
-    tags: new Set(generateTags(Tags)),
-    color: getRandomArrayItem(Colors),
-    isFavorite: Math.random() > 0.5,
-    isArchive: Math.random() > 0.5,
-  };
-};
-
-const generateTasks = (count) => {
-  return new Array(count)
-    .fill(``)
-    .map(generateTask);
-};
-
-export { generateTask, generateTasks };
+export { Tasks };

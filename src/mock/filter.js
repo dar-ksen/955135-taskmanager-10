@@ -24,7 +24,7 @@ const generateFilters = (tasks) => {
     },
     {
       name: `tags`,
-      count: tasks.filter(({ tags }) => tags.size).length,
+      count: tasks.filter(({ tags }) => tags.length > 0).length,
     },
     {
       name: `archive`,

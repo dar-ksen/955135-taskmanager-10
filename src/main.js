@@ -5,14 +5,11 @@ import { getTaskEditTemplate } from './components/task-edit';
 import { getTaskTemplate } from './components/task';
 import { getButtonLoadMoreTemplate } from './components/load-more-button';
 
-import { generateTasks } from './mock/task.js';
+import { Tasks as tasks } from './mock/task.js';
 import { generateFilters } from './mock/filter';
 
-const TASK_COUNT = 18;
 const SHOWING_TASKS_COUNT_ON_START = 8;
 const SHOWING_TASKS_COUNT_BY_BUTTON = 8;
-
-const tasks = generateTasks(TASK_COUNT);
 
 const siteMainElement = document.querySelector(`.js-main`);
 const siteMainControlElement = siteMainElement.querySelector(`.js-main__control`);
@@ -35,7 +32,7 @@ tasks.slice(1, showingTasksCount).forEach((task) => render(taskListElement, getT
 
 const boardElement = siteMainElement.querySelector(`.js-board`);
 
-if (showingTasksCount <= tasks.length) {
+if (showingTasksCount < tasks.length) {
   render(boardElement, getButtonLoadMoreTemplate());
 
   const loadMoreButton = boardElement.querySelector(`.js-load-more`);
