@@ -17,4 +17,8 @@ const DateFormatter = new Intl.DateTimeFormat(`en-GB`, formatterOptionsDate);
 
 const formatDate = (date) => DateFormatter.format(date);
 
-export { formatTime, formatDate };
+const isFirst = (index) => index === 0;
+const take = (array, count, startPos = 0) => array.slice(startPos, startPos + count);
+
+
+export { formatTime, formatDate, isFirst, take };

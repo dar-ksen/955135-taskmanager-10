@@ -1,3 +1,5 @@
+import { isFirst } from '../utils';
+
 const getFilterListTemplate = (filter, isChecked) => {
   const { name, count } = filter;
 
@@ -16,7 +18,7 @@ const getFilterListTemplate = (filter, isChecked) => {
 };
 
 export const getFilterTemplate = (filters) => {
-  const filtersMarkup = filters.map((filter, i) => getFilterListTemplate(filter, i === 0)).join(`\n`);
+  const filtersMarkup = filters.map((filter, index) => getFilterListTemplate(filter, isFirst(index))).join(`\n`);
 
   return (`
   <section class="main__filter filter container">
