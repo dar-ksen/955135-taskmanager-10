@@ -1,5 +1,5 @@
-import {MonthNames} from '../const.js';
-import {formatTime} from '../utils.js';
+import { MonthNames } from '../const.js';
+import { formatTime } from '../utils.js';
 
 const getHashtagsMarkup = (hastags) => {
   return hastags.map((hashtag) => {
@@ -14,7 +14,7 @@ const getHashtagsMarkup = (hastags) => {
 };
 
 export const getTaskTemplate = (task) => {
-  const {description, tags, dueDate, color, repeatingDays} = task;
+  const { description, tags, dueDate, color, repeatingDays } = task;
 
   const isExpired = dueDate instanceof Date && dueDate < Date.now();
   const isDateShowing = dueDate;

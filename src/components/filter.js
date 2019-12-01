@@ -1,5 +1,5 @@
 const getFilterMarkup = (filter, isChecked) => {
-  const {name, count} = filter;
+  const { name, count } = filter;
 
   return (
     `<input

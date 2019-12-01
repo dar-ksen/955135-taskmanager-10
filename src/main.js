@@ -1,12 +1,12 @@
-import {getBoardTemplate} from './components/board';
-import {getMenuTemplate} from './components/menu';
-import {getFilterTemplate} from './components/filter';
-import {getTaskEditTemplate} from './components/task-edit';
-import {getTaskTemplate} from './components/task';
-import {getButtonLoadMoreTemplate} from './components/load-more-button';
+import { getBoardTemplate } from './components/board';
+import { getMenuTemplate } from './components/menu';
+import { getFilterTemplate } from './components/filter';
+import { getTaskEditTemplate } from './components/task-edit';
+import { getTaskTemplate } from './components/task';
+import { getButtonLoadMoreTemplate } from './components/load-more-button';
 
-import {generateTasks} from './mock/task.js';
-import {generateFilters} from './mock/filter';
+import { generateTasks } from './mock/task.js';
+import { generateFilters } from './mock/filter';
 
 const TASK_COUNT = 18;
 const SHOWING_TASKS_COUNT_ON_START = 8;
