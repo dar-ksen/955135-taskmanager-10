@@ -1,29 +1,28 @@
 import { Colors, Days } from '../const.js';
 import { formatTime, formatDate } from '../utils.js';
 
-const getColorsMarkup = (colors, currentColor) => {
+const getColorsTemplate = (colors, currentColor) => {
   return colors
-    .map((color) => {
-      return (
-        `<input
-          type="radio"
-          id="color-${color}-4"
-          class="card__color-input card__color-input--${color} visually-hidden"
-          name="color"
-          value="${color}"
-          ${currentColor === color ? `checked` : ``}
-        />
-        <label
-          for="color-${color}-4"
-          class="card__color card__color--${color}"
-          >${color}</label
-        >`
-      );
-    })
+    .map((color) => (`
+      <input
+        type="radio"
+        id="color-${color}-4"
+        class="card__color-input card__color-input--${color} visually-hidden"
+        name="color"
+        value="${color}"
+        ${currentColor === color ? `checked` : ``}
+      />
+      <label
+        for="color-${color}-4"
+        class="card__color card__color--${color}"
+        >${color}</label
+      >
+      `)
+    )
     .join(`\n`);
 };
 
-const getRepeatingDaysMarkup = (days, repeatingDays) => {
+const getRepeatingDaysTemplate = (days, repeatingDays) => {
   return days
     .map((day) => {
       const isChecked = repeatingDays[day];
@@ -44,8 +43,8 @@ const getRepeatingDaysMarkup = (days, repeatingDays) => {
     .join(`\n`);
 };
 
-const getHashtags = (tags) => {
-  return Array.from(tags)
+const getHashtagsTemplate = (tags) => {
+  return tags
     .map((tag) => {
       return (
         `<span class="card__hashtag-inner">
@@ -74,7 +73,7 @@ export const getTaskEditTemplate = (task) => {
   const { description, tags, dueDate, color, repeatingDays } = task;
 
   const isExpired = dueDate instanceof Date && dueDate < Date.now();
-  const isDateShowing = !!dueDate;
+  const isDateShowing = Boolean(dueDate);
 
   const date = isDateShowing ? formatDate(dueDate) : ``;
   const time = isDateShowing ? formatTime(dueDate) : ``;
@@ -83,9 +82,9 @@ export const getTaskEditTemplate = (task) => {
   const repeatClass = isRepeatingTask ? `card--repeat` : ``;
   const deadlineClass = isExpired ? `card--deadline` : ``;
 
-  const tagsMarkup = getHashtags(tags);
-  const colorsMarkup = getColorsMarkup(Colors, color);
-  const repeatingDaysMarkup = getRepeatingDaysMarkup(Days, repeatingDays);
+  const hashtagsTemplate = getHashtagsTemplate(tags);
+  const colorsTemplate = getColorsTemplate(Colors, color);
+  const repeatingDaysTemplate = getRepeatingDaysTemplate(Days, repeatingDays);
 
   return (
     `<article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
@@ -132,14 +131,14 @@ export const getTaskEditTemplate = (task) => {
 
                   ${isRepeatingTask ? `<fieldset class="card__repeat-days">
                       <div class="card__repeat-days-inner">
-                        ${repeatingDaysMarkup}
+                        ${repeatingDaysTemplate}
                       </div>
                     </fieldset>` : `` }
                 </div>
 
                 <div class="card__hashtag">
                   <div class="card__hashtag-list">
-                    ${tagsMarkup}
+                    ${hashtagsTemplate}
                   </div>
 
                   <label>
@@ -156,7 +155,7 @@ export const getTaskEditTemplate = (task) => {
               <div class="card__colors-inner">
                 <h3 class="card__colors-title">Color</h3>
                 <div class="card__colors-wrap">
-                  ${colorsMarkup}
+                  ${colorsTemplate}
                 </div>
               </div>
             </div>

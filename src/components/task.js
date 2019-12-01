@@ -1,11 +1,11 @@
 import { formatTime, formatDate } from '../utils.js';
 
-const getHashtagsMarkup = (hastags) => {
-  return hastags.map((hashtag) => {
+const getHashtagsTemplate = (tags) => {
+  return tags.map((tag) => {
     return (
       `<span class="card__hashtag-inner">
           <span class="card__hashtag-name">
-            #${hashtag}
+            #${tag}
           </span>
         </span>`
     );
@@ -16,12 +16,12 @@ export const getTaskTemplate = (task) => {
   const { description, tags, dueDate, color, repeatingDays } = task;
 
   const isExpired = dueDate instanceof Date && dueDate < Date.now();
-  const isDateShowing = dueDate;
+  const isDateShowing = Boolean(dueDate);
 
   const date = isDateShowing ? formatDate(dueDate) : ``;
   const time = isDateShowing ? formatTime(dueDate) : ``;
 
-  const hashtags = getHashtagsMarkup(Array.from(tags));
+  const hashtagsTemplate = getHashtagsTemplate(tags);
   const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
   const deadlineClass = isExpired ? `card--deadline` : ``;
 
@@ -63,7 +63,7 @@ export const getTaskTemplate = (task) => {
               </div>
               <div class="card__hashtag">
                 <div class="card__hashtag-list">
-                  ${hashtags}
+                  ${hashtagsTemplate}
                 </div>
               </div>
             </div>
