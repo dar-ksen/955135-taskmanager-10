@@ -33,7 +33,7 @@ const getMenuTemplate = () => {
   `);
 };
 
-export default class SiteMenu {
+export default class Menu {
   constructor() {
     this._element = null;
   }
@@ -44,7 +44,7 @@ export default class SiteMenu {
 
   getElement() {
     if (!this._element) {
-      this._element = createElement(this.getTemplate);
+      this._element = createElement(this.getTemplate());
     }
 
     return this._element;
@@ -53,5 +53,4 @@ export default class SiteMenu {
   removeElement() {
     this._element = null;
   }
-
 }
