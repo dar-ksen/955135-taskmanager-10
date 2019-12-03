@@ -30,7 +30,7 @@ const getTaskTemplate = (task) => {
       <div class="card__form">
         <div class="card__inner">
           <div class="card__control">
-            <button type="button" class="card__btn card__btn--edit">
+            <button type="button" class="card__btn card__btn--edit js-card__btn--edit">
               edit
             </button>
             <button type="button" class="card__btn card__btn--archive">

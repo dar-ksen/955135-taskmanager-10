@@ -32,7 +32,7 @@ const renderTask = (taskListElement, task) => {
   };
 
   const taskComponent = new TaskComponent(task);
-  const editButton = taskComponent.getElement().querySelector(`.card__btn--edit`);
+  const editButton = taskComponent.getElement().querySelector(`.js-card__btn--edit`);
 
   editButton.addEventListener(`click`, () => {
     replaceTaskToEdit();
