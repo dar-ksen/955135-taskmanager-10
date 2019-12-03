@@ -1,4 +1,4 @@
-import { formatTime, formatDate } from '../utils.js';
+import { formatTime, formatDate, createElement } from '../utils.js';
 
 const getHashtagsTemplate = (tags) => {
   return tags.map((tag) => {
@@ -12,7 +12,7 @@ const getHashtagsTemplate = (tags) => {
   }).join(`\n`);
 };
 
-export const getTaskTemplate = (task) => {
+const getTaskTemplate = (task) => {
   const { description, tags, dueDate, color, repeatingDays } = task;
 
   const isExpired = dueDate instanceof Date && dueDate < Date.now();
@@ -73,3 +73,27 @@ export const getTaskTemplate = (task) => {
     </article>`
   );
 };
+
+export default class Task {
+  constructor(task) {
+    this._task = task;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return getTaskTemplate(this._task);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
