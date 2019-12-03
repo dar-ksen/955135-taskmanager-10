@@ -1,3 +1,8 @@
+const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`
+};
+
 const formatterOptionsTime = {
   hour12: true,
   hour: `2-digit`,
@@ -20,5 +25,22 @@ const formatDate = (date) => DateFormatter.format(date);
 const isFirst = (index) => index === 0;
 const take = (array, count, startPos = 0) => array.slice(startPos, startPos + count);
 
+const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHtml = template;
 
-export { formatTime, formatDate, isFirst, take };
+  return newElement.firstChild;
+};
+
+const render = (container, element, place) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
+
+export { formatTime, formatDate, isFirst, take, RenderPosition, createElement, render };
