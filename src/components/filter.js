@@ -17,7 +17,7 @@ const getFilterListTemplate = (filter, isChecked) => {
   );
 };
 
-const getFilterTemplate = (filters) => {
+const getFiltersTemplate = (filters) => {
   const filtersMarkup = filters.map((filter, index) => getFilterListTemplate(filter, isFirst(index))).join(`\n`);
 
   return (`
@@ -34,7 +34,7 @@ export default class Filter {
   }
 
   getTemplate() {
-    return getFilterTemplate(this._filters);
+    return getFiltersTemplate(this._filters);
   }
 
   getElement() {
