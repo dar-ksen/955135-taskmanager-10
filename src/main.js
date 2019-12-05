@@ -1,7 +1,7 @@
 import BoardComponent from './components/board';
 import MenuComponent from './components/menu';
 import FilterComponent from './components/filter';
-import TaskEditComponent from './components/task-edit';
+import InEditTaskComponent from './components/task-edit';
 import TaskComponent from './components/task';
 import LoadMoreButtonComponent from './components/load-more-button';
 
@@ -39,7 +39,7 @@ const renderTask = (taskListElement, task) => {
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
-  const taskEditComponent = new TaskEditComponent(task);
+  const taskEditComponent = new InEditTaskComponent(task);
   const editForm = taskEditComponent.getElement().querySelector(`form`);
 
   editForm.addEventListener(`submit`, replaceEditToTask);

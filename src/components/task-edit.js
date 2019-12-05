@@ -170,7 +170,7 @@ const getTaskEditTemplate = (task) => {
   );
 };
 
-export default class TaskEdit {
+export default class InEditTask {
   constructor(task) {
     this._task = task;
 
