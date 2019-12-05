@@ -20,8 +20,8 @@ const isFirst = (index) => index === 0;
 const take = (array, count, startPos = 0) => array.slice(startPos, startPos + count);
 
 const RenderPosition = {
-  AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
+  AFTER_BEGIN: `afterbegin`,
+  BEFORE_END: `beforeend`
 };
 
 const createElement = (template) => {
@@ -33,10 +33,10 @@ const createElement = (template) => {
 
 const render = (container, element, place) => {
   switch (place) {
-    case RenderPosition.AFTERBEGIN:
+    case RenderPosition.AFTER_BEGIN:
       container.prepend(element);
       break;
-    case RenderPosition.BEFOREEND:
+    case RenderPosition.BEFORE_END:
       container.append(element);
       break;
   }
