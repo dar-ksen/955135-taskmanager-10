@@ -40,7 +40,7 @@ const renderTask = (taskListElement, task) => {
   });
 
   const taskEditComponent = new InEditTaskComponent(task);
-  const editForm = taskEditComponent.getElement().querySelector(`form`);
+  const editForm = taskEditComponent.getElement().querySelector(`.js-card__form`);
 
   editForm.addEventListener(`submit`, startTaskEditing);
 

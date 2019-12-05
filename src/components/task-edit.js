@@ -88,7 +88,7 @@ const getTaskEditTemplate = (task) => {
 
   return (
     `<article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
-      <form class="card__form" method="get">
+      <form class="card__form js-card__form" method="get">
         <div class="card__inner">
           <div class="card__color-bar">
               <svg class="card__color-bar-wave" width="100%" height="10">
