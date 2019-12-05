@@ -18,16 +18,16 @@ const renderTask = (taskListElement, task) => {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
 
     if (isEscKey) {
-      replaceEditToTask();
+      startTaskEditing();
       document.removeEventListener(`keydown`, onEscKeyDown);
     }
   };
 
-  const replaceEditToTask = () => {
+  const startTaskEditing = () => {
     taskListElement.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
   };
 
-  const replaceTaskToEdit = () => {
+  const stopTaskEditing = () => {
     taskListElement.replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
   };
 
@@ -35,14 +35,14 @@ const renderTask = (taskListElement, task) => {
   const editButton = taskComponent.getElement().querySelector(`.js-card__btn--edit`);
 
   editButton.addEventListener(`click`, () => {
-    replaceTaskToEdit();
+    stopTaskEditing();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
   const taskEditComponent = new InEditTaskComponent(task);
   const editForm = taskEditComponent.getElement().querySelector(`form`);
 
-  editForm.addEventListener(`submit`, replaceEditToTask);
+  editForm.addEventListener(`submit`, startTaskEditing);
 
   render(taskListElement, taskComponent.getElement(), RenderPosition.BEFOREEND);
 };
