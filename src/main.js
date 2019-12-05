@@ -8,7 +8,7 @@ import LoadMoreButtonComponent from './components/load-more-button';
 import { tasks } from './mock/task.js';
 import { generateFilters } from './mock/filter';
 
-import { render, RenderPosition, take } from './utils';
+import { renderComponent, RenderPosition, take } from './utils';
 
 const SHOWING_TASKS_COUNT_ON_START = 8;
 const SHOWING_TASKS_COUNT_BY_BUTTON = 8;
@@ -44,19 +44,19 @@ const renderTask = (taskListElement, task) => {
 
   editForm.addEventListener(`submit`, startTaskEditing);
 
-  render(taskListElement, taskComponent.getElement(), RenderPosition.BEFORE_END);
+  renderComponent(taskListElement, taskComponent, RenderPosition.BEFORE_END);
 };
 
 const siteMainElement = document.querySelector(`.js-main`);
 const siteMainControlElement = siteMainElement.querySelector(`.js-main__control`);
 
-render(siteMainControlElement, new MenuComponent().getElement(), RenderPosition.BEFORE_END);
+renderComponent(siteMainControlElement, new MenuComponent(), RenderPosition.BEFORE_END);
 
 const filters = generateFilters(tasks);
-render(siteMainElement, new FilterComponent(filters).getElement(), RenderPosition.BEFORE_END);
+renderComponent(siteMainElement, new FilterComponent(filters), RenderPosition.BEFORE_END);
 
 const boardComponent = new BoardComponent();
-render(siteMainElement, boardComponent.getElement(), RenderPosition.BEFORE_END);
+renderComponent(siteMainElement, boardComponent, RenderPosition.BEFORE_END);
 
 const taskListElement = boardComponent.getElement().querySelector(`.js-board__tasks`);
 
@@ -67,7 +67,7 @@ take(tasks, showingTasksCount).forEach((task) => renderTask(taskListElement, tas
 if (showingTasksCount < tasks.length) {
   const loadMoreButtonComponent = new LoadMoreButtonComponent();
 
-  render(boardComponent.getElement(), loadMoreButtonComponent.getElement(), RenderPosition.BEFORE_END);
+  renderComponent(boardComponent.getElement(), loadMoreButtonComponent, RenderPosition.BEFORE_END);
 
   loadMoreButtonComponent.getElement().addEventListener(`click`, () => {
     take(tasks, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount).forEach((task) => renderTask(taskListElement, task));

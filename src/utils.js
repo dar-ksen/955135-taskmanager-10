@@ -31,7 +31,8 @@ const createElement = (template) => {
   return newElement.firstElementChild;
 };
 
-const render = (container, element, place) => {
+const renderComponent = (container, component, place) => {
+  const element = component.getElement();
   switch (place) {
     case RenderPosition.AFTER_BEGIN:
       container.prepend(element);
@@ -43,4 +44,4 @@ const render = (container, element, place) => {
 };
 
 export { formatTime, formatDate, isFirst, take,
-  RenderPosition, createElement, render };
+  RenderPosition, createElement, renderComponent };
