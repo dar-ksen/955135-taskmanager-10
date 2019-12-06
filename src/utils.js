@@ -43,5 +43,12 @@ const renderComponent = (container, component, place) => {
   }
 };
 
-export { formatTime, formatDate, isFirst, take,
-  RenderPosition, createElement, renderComponent };
+export {
+  formatTime,
+  formatDate,
+  isFirst,
+  take,
+  RenderPosition,
+  createElement,
+  renderComponent
+};
