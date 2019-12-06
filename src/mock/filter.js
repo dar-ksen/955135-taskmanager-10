@@ -4,7 +4,7 @@ const generateFilters = (tasks) => {
   return [
     {
       name: `all`,
-      count: tasks.length,
+      count: tasks.filter((task) => !task.isArchive).length,
     },
     {
       name: `overdue`,
