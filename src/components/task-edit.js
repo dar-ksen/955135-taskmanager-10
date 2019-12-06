@@ -1,5 +1,5 @@
 import { Colors, Days } from '../const.js';
-import { formatTime, formatDate } from '../utils.js';
+import { createElement, formatTime, formatDate } from '../utils.js';
 
 const getColorsTemplate = (colors, currentColor) => {
   return colors
@@ -69,7 +69,7 @@ const getHashtagsTemplate = (tags) => {
     .join(`\n`);
 };
 
-export const getTaskEditTemplate = (task) => {
+const getTaskEditTemplate = (task) => {
   const { description, tags, dueDate, color, repeatingDays } = task;
 
   const isExpired = dueDate instanceof Date && dueDate < Date.now();
@@ -88,7 +88,7 @@ export const getTaskEditTemplate = (task) => {
 
   return (
     `<article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
-      <form class="card__form" method="get">
+      <form class="card__form js-card__form" method="get">
         <div class="card__inner">
           <div class="card__color-bar">
               <svg class="card__color-bar-wave" width="100%" height="10">
@@ -169,3 +169,28 @@ export const getTaskEditTemplate = (task) => {
       </article>`
   );
 };
+
+export default class InEditTask {
+  constructor(task) {
+    this._task = task;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return getTaskEditTemplate(this._task);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+

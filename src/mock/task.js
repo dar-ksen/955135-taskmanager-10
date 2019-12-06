@@ -10,7 +10,7 @@ const DefaultRepeatingDays = {
   'su': false,
 };
 
-const Tasks = [
+const tasks = [
   {
     description: `Изучить теорию`,
     dueDate: new Date(Date.UTC(2019, 11, 10, 3, 1, 0)),
@@ -112,4 +112,4 @@ const Tasks = [
   },
 ];
 
-export { Tasks };
+export { tasks };
