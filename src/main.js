@@ -8,7 +8,7 @@ import TaskComponent from './components/task';
 import InEditTaskComponent from './components/task-edit';
 import LoadMoreButtonComponent from './components/load-more-button';
 
-import NoTasksComponent from './components/no-tasks';
+import NoTasksMessageComponent from './components/no-tasks-message';
 
 import { tasks } from './mock/task.js';
 import { generateFilters } from './mock/filter';
@@ -66,8 +66,8 @@ renderComponent(siteMainElement, boardComponent, RenderPosition.BEFORE_END);
 const workTasks = tasks.filter((task) => !task.isArchive);
 
 if (workTasks.length === 0) {
-  const noTasksComponent = new NoTasksComponent();
-  renderComponent(boardComponent.getElement(), noTasksComponent, RenderPosition.BEFORE_END);
+  const noTasksMessageComponent = new NoTasksMessageComponent();
+  renderComponent(boardComponent.getElement(), noTasksMessageComponent, RenderPosition.BEFORE_END);
 } else {
   const sortComponent = new SortComponent();
   renderComponent(boardComponent.getElement(), sortComponent, RenderPosition.BEFORE_END);

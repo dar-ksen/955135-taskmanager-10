@@ -1,6 +1,6 @@
 import { createElement } from '../utils';
 
-const getNoTasksTemplate = () => {
+const getNoTasksMessageTemplate = () => {
   return (`
     <p class="board__no-tasks">
       Click «ADD NEW TASK» in menu to create your first task
@@ -8,13 +8,13 @@ const getNoTasksTemplate = () => {
   `);
 };
 
-export default class NoTasks {
+export default class NoTasksMessage {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return getNoTasksTemplate();
+    return getNoTasksMessageTemplate();
   }
 
   getElement() {
