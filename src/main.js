@@ -63,9 +63,9 @@ renderComponent(siteMainElement, new FilterComponent(filters), RenderPosition.BE
 const boardComponent = new BoardComponent();
 renderComponent(siteMainElement, boardComponent, RenderPosition.BEFORE_END);
 
-const workTasks = tasks.filter((task) => !task.isArchive);
+const inDoingTasks = tasks.filter((task) => !task.isArchive);
 
-if (workTasks.length === 0) {
+if (inDoingTasks.length === 0) {
   const noTasksMessageComponent = new NoTasksMessageComponent();
   renderComponent(boardComponent.getElement(), noTasksMessageComponent, RenderPosition.BEFORE_END);
 } else {
@@ -77,18 +77,18 @@ if (workTasks.length === 0) {
 
   let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
 
-  take(workTasks, showingTasksCount).forEach((task) => renderTask(taskListComponent.getElement(), task));
+  take(inDoingTasks, showingTasksCount).forEach((task) => renderTask(taskListComponent.getElement(), task));
 
-  if (showingTasksCount < workTasks.length) {
+  if (showingTasksCount < inDoingTasks.length) {
     const loadMoreButtonComponent = new LoadMoreButtonComponent();
 
     renderComponent(boardComponent.getElement(), loadMoreButtonComponent, RenderPosition.BEFORE_END);
 
     loadMoreButtonComponent.getElement().addEventListener(`click`, () => {
-      take(workTasks, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount).forEach((task) => renderTask(taskListComponent.getElement(), task));
+      take(inDoingTasks, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount).forEach((task) => renderTask(taskListComponent.getElement(), task));
       showingTasksCount += SHOWING_TASKS_COUNT_BY_BUTTON;
 
-      if (showingTasksCount > workTasks.length) {
+      if (showingTasksCount > inDoingTasks.length) {
         loadMoreButtonComponent.getElement().remove();
         loadMoreButtonComponent.removeElement();
       }
