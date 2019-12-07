@@ -2,6 +2,7 @@ import { isFirst, createElement } from '../utils';
 
 const getFilterListTemplate = (filter, isChecked) => {
   const { name, count } = filter;
+  const disabled = count > 0 ? `` : `disabled`;
 
   return (
     `<input
@@ -10,6 +11,7 @@ const getFilterListTemplate = (filter, isChecked) => {
     class="filter__input visually-hidden"
     name="filter"
     ${isChecked ? `checked` : ``}
+    ${disabled}
   />
   <label for="filter__${name}" class="filter__label">
     ${name} <span class="filter__all-count">${count}</span></label
