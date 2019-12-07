@@ -89,7 +89,6 @@ if (inDoingTasks.length === 0) {
       showingTasksCount += SHOWING_TASKS_COUNT_BY_BUTTON;
 
       if (showingTasksCount > inDoingTasks.length) {
-        loadMoreButtonComponent.getElement().remove();
         loadMoreButtonComponent.removeElement();
       }
     });
