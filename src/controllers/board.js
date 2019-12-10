@@ -55,30 +55,31 @@ export default class BoardController {
 
     if (inDoingTasks.length === 0) {
       renderComponent(container, this._noTasksMessageComponent);
-    } else {
-      renderComponent(container, this._sortComponent);
+      return;
+    }
 
-      renderComponent(container, this._taskListComponent);
+    renderComponent(container, this._sortComponent);
 
-      let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
+    renderComponent(container, this._taskListComponent);
 
-      take(inDoingTasks, showingTasksCount)
-        .forEach((task) => renderTask(this._taskListComponent.getElement(), task));
+    let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
 
-      if (showingTasksCount < inDoingTasks.length) {
-        renderComponent(container, this._loadMoreButtonComponent);
+    take(inDoingTasks, showingTasksCount)
+      .forEach((task) => renderTask(this._taskListComponent.getElement(), task));
 
-        this._loadMoreButtonComponent.setClickHandler(() => {
-          take(inDoingTasks, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount)
-            .forEach((task) => renderTask(this._taskListComponent.getElement(), task));
+    if (showingTasksCount < inDoingTasks.length) {
+      renderComponent(container, this._loadMoreButtonComponent);
 
-          showingTasksCount += SHOWING_TASKS_COUNT_BY_BUTTON;
+      this._loadMoreButtonComponent.setClickHandler(() => {
+        take(inDoingTasks, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount)
+          .forEach((task) => renderTask(this._taskListComponent.getElement(), task));
 
-          if (showingTasksCount > inDoingTasks.length) {
-            this._loadMoreButtonComponent.removeElement();
-          }
-        });
-      }
+        showingTasksCount += SHOWING_TASKS_COUNT_BY_BUTTON;
+
+        if (showingTasksCount > inDoingTasks.length) {
+          this._loadMoreButtonComponent.removeElement();
+        }
+      });
     }
   }
 }
