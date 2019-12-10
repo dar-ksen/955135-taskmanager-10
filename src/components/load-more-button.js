@@ -7,7 +7,12 @@ const getButtonLoadMoreTemplate = () => {
 };
 
 export default class LoadMoreButton extends AbstractComponent {
+
   getTemplate() {
     return getButtonLoadMoreTemplate();
+  }
+
+  setClickHandler(handler) {
+    this.getElement().addEventListener(`click`, handler);
   }
 }
