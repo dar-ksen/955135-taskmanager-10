@@ -38,17 +38,13 @@ const renderTask = (taskListElement, task) => {
   };
 
   const taskComponent = new TaskComponent(task);
-  const editButton = taskComponent.getElement().querySelector(`.js-card__btn--edit`);
-
-  editButton.addEventListener(`click`, () => {
+  taskComponent.setEditButtonClickHandler(() => {
     stopTaskEditing();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
   const taskEditComponent = new InEditTaskComponent(task);
-  const editForm = taskEditComponent.getElement().querySelector(`.js-card__form`);
-
-  editForm.addEventListener(`submit`, startTaskEditing);
+  taskEditComponent.setSubmitHandler(startTaskEditing);
 
   renderComponent(taskListElement, taskComponent, RenderPosition.BEFORE_END);
 };
@@ -85,7 +81,7 @@ if (inDoingTasks.length === 0) {
 
     renderComponent(boardComponent.getElement(), loadMoreButtonComponent, RenderPosition.BEFORE_END);
 
-    loadMoreButtonComponent.getElement().addEventListener(`click`, () => {
+    loadMoreButtonComponent.setClickHandler(() => {
       take(inDoingTasks, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount).forEach((task) => renderTask(taskListComponent.getElement(), task));
       showingTasksCount += SHOWING_TASKS_COUNT_BY_BUTTON;
 
