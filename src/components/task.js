@@ -1,6 +1,6 @@
 import AbstractComponent from './abstract-component';
 
-import { formatTime, formatDate } from '../utils';
+import { formatTime, formatDate } from '../utils/common';
 
 const getHashtagsTemplate = (tags) => {
   return tags.map((tag) => {

@@ -13,7 +13,8 @@ import NoTasksMessageComponent from './components/no-tasks-message';
 import { tasks } from './mock/task.js';
 import { generateFilters } from './mock/filter';
 
-import { renderComponent, RenderPosition, take } from './utils';
+import { take } from './utils/common';
+import { renderComponent, RenderPosition } from './utils/render';
 
 const SHOWING_TASKS_COUNT_ON_START = 8;
 const SHOWING_TASKS_COUNT_BY_BUTTON = 8;

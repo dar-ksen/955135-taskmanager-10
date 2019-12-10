@@ -1,7 +1,7 @@
 import AbstractComponent from './abstract-component';
 
 import { Colors, Days } from '../const';
-import { formatTime, formatDate } from '../utils';
+import { formatTime, formatDate } from '../utils/common';
 
 const getColorsTemplate = (colors, currentColor) => {
   return colors

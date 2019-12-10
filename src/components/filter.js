@@ -1,5 +1,5 @@
 import AbstractComponent from './abstract-component';
-import { isFirst } from '../utils';
+import { isFirst } from '../utils/common';
 
 const getFilterListTemplate = (filter, isChecked) => {
   const { name, count } = filter;
