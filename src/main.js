@@ -2,48 +2,11 @@ import MenuComponent from './components/menu';
 import FilterComponent from './components/filter';
 
 import BoardComponent from './components/board';
-import SortComponent from './components/sort';
-import TaskListComponent from './components/task-list';
-import TaskComponent from './components/task';
-import InEditTaskComponent from './components/task-edit';
-import LoadMoreButtonComponent from './components/load-more-button';
-
-import NoTasksMessageComponent from './components/no-tasks-message';
+import BoardController from './controllers/board';
 
 import { tasks } from './mock/task.js';
 import { generateFilters } from './mock/filter';
-
-import { take } from './utils/common';
-import { renderComponent, RenderPosition, replace } from './utils/render';
-
-const SHOWING_TASKS_COUNT_ON_START = 8;
-const SHOWING_TASKS_COUNT_BY_BUTTON = 8;
-
-const renderTask = (taskListElement, task) => {
-  const onEscKeyDown = (evt) => {
-    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-
-    if (isEscKey) {
-      startTaskEditing();
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    }
-  };
-
-  const startTaskEditing = () => replace(taskComponent, taskEditComponent);
-
-  const stopTaskEditing = () => replace(taskEditComponent, taskComponent);
-
-  const taskComponent = new TaskComponent(task);
-  taskComponent.setEditButtonClickHandler(() => {
-    stopTaskEditing();
-    document.addEventListener(`keydown`, onEscKeyDown);
-  });
-
-  const taskEditComponent = new InEditTaskComponent(task);
-  taskEditComponent.setSubmitHandler(startTaskEditing);
-
-  renderComponent(taskListElement, taskComponent, RenderPosition.BEFORE_END);
-};
+import { renderComponent, RenderPosition } from './utils/render';
 
 const siteMainElement = document.querySelector(`.js-main`);
 const siteMainControlElement = siteMainElement.querySelector(`.js-main__control`);
@@ -56,38 +19,7 @@ renderComponent(siteMainElement, new FilterComponent(filters), RenderPosition.BE
 const boardComponent = new BoardComponent();
 renderComponent(siteMainElement, boardComponent, RenderPosition.BEFORE_END);
 
-const inDoingTasks = tasks.filter((task) => !task.isArchive);
+const boardController = new BoardController(boardComponent);
 
-if (inDoingTasks.length === 0) {
-  const noTasksMessageComponent = new NoTasksMessageComponent();
-  renderComponent(boardComponent.getElement(), noTasksMessageComponent, RenderPosition.BEFORE_END);
-} else {
-  const sortComponent = new SortComponent();
-  renderComponent(boardComponent.getElement(), sortComponent, RenderPosition.BEFORE_END);
-
-  const taskListComponent = new TaskListComponent();
-  renderComponent(boardComponent.getElement(), taskListComponent, RenderPosition.BEFORE_END);
-
-  let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
-
-  take(inDoingTasks, showingTasksCount).forEach((task) => renderTask(taskListComponent.getElement(), task));
-
-  if (showingTasksCount < inDoingTasks.length) {
-    const loadMoreButtonComponent = new LoadMoreButtonComponent();
-
-    renderComponent(boardComponent.getElement(), loadMoreButtonComponent, RenderPosition.BEFORE_END);
-
-    loadMoreButtonComponent.setClickHandler(() => {
-      take(inDoingTasks, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount).forEach((task) => renderTask(taskListComponent.getElement(), task));
-      showingTasksCount += SHOWING_TASKS_COUNT_BY_BUTTON;
-
-      if (showingTasksCount > inDoingTasks.length) {
-        loadMoreButtonComponent.removeElement();
-      }
-    });
-
-  }
-
-}
-
+boardController.render(tasks);
 
