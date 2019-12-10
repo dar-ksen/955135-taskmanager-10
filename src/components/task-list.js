@@ -1,18 +1,18 @@
 import { createElement } from '../utils';
 
-const getButtonLoadMoreTemplate = () => {
+const getTaskListTemplate = () => {
   return (`
-    <button class="load-more js-load-more" type="button">load more</button>
+    <div class="board__tasks js-board__tasks"></div>
   `);
 };
 
-export default class LoadMoreButton {
+export default class TaskList {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return getButtonLoadMoreTemplate();
+    return getTaskListTemplate();
   }
 
   getElement() {
@@ -24,11 +24,7 @@ export default class LoadMoreButton {
   }
 
   removeElement() {
-    if (this._element === null) {
-      return;
-    }
-
-    this._element.remove();
     this._element = null;
   }
+
 }

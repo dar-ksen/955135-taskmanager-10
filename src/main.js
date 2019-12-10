@@ -1,9 +1,14 @@
-import BoardComponent from './components/board';
 import MenuComponent from './components/menu';
 import FilterComponent from './components/filter';
-import InEditTaskComponent from './components/task-edit';
+
+import BoardComponent from './components/board';
+import SortComponent from './components/sort';
+import TaskListComponent from './components/task-list';
 import TaskComponent from './components/task';
+import InEditTaskComponent from './components/task-edit';
 import LoadMoreButtonComponent from './components/load-more-button';
+
+import NoTasksMessageComponent from './components/no-tasks-message';
 
 import { tasks } from './mock/task.js';
 import { generateFilters } from './mock/filter';
@@ -58,25 +63,38 @@ renderComponent(siteMainElement, new FilterComponent(filters), RenderPosition.BE
 const boardComponent = new BoardComponent();
 renderComponent(siteMainElement, boardComponent, RenderPosition.BEFORE_END);
 
-const taskListElement = boardComponent.getElement().querySelector(`.js-board__tasks`);
+const inDoingTasks = tasks.filter((task) => !task.isArchive);
 
-let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
+if (inDoingTasks.length === 0) {
+  const noTasksMessageComponent = new NoTasksMessageComponent();
+  renderComponent(boardComponent.getElement(), noTasksMessageComponent, RenderPosition.BEFORE_END);
+} else {
+  const sortComponent = new SortComponent();
+  renderComponent(boardComponent.getElement(), sortComponent, RenderPosition.BEFORE_END);
 
-take(tasks, showingTasksCount).forEach((task) => renderTask(taskListElement, task));
+  const taskListComponent = new TaskListComponent();
+  renderComponent(boardComponent.getElement(), taskListComponent, RenderPosition.BEFORE_END);
 
-if (showingTasksCount < tasks.length) {
-  const loadMoreButtonComponent = new LoadMoreButtonComponent();
+  let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
 
-  renderComponent(boardComponent.getElement(), loadMoreButtonComponent, RenderPosition.BEFORE_END);
+  take(inDoingTasks, showingTasksCount).forEach((task) => renderTask(taskListComponent.getElement(), task));
 
-  loadMoreButtonComponent.getElement().addEventListener(`click`, () => {
-    take(tasks, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount).forEach((task) => renderTask(taskListElement, task));
-    showingTasksCount += SHOWING_TASKS_COUNT_BY_BUTTON;
+  if (showingTasksCount < inDoingTasks.length) {
+    const loadMoreButtonComponent = new LoadMoreButtonComponent();
 
-    if (showingTasksCount > tasks.length) {
-      loadMoreButtonComponent.getElement().remove();
-      loadMoreButtonComponent.removeElement();
-    }
-  });
+    renderComponent(boardComponent.getElement(), loadMoreButtonComponent, RenderPosition.BEFORE_END);
+
+    loadMoreButtonComponent.getElement().addEventListener(`click`, () => {
+      take(inDoingTasks, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount).forEach((task) => renderTask(taskListComponent.getElement(), task));
+      showingTasksCount += SHOWING_TASKS_COUNT_BY_BUTTON;
+
+      if (showingTasksCount > inDoingTasks.length) {
+        loadMoreButtonComponent.removeElement();
+      }
+    });
+
+  }
 
 }
+
+

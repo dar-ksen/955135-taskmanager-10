@@ -1,18 +1,20 @@
 import { createElement } from '../utils';
 
-const getButtonLoadMoreTemplate = () => {
+const getNoTasksMessageTemplate = () => {
   return (`
-    <button class="load-more js-load-more" type="button">load more</button>
+    <p class="board__no-tasks">
+      Click «ADD NEW TASK» in menu to create your first task
+    </p>
   `);
 };
 
-export default class LoadMoreButton {
+export default class NoTasksMessage {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return getButtonLoadMoreTemplate();
+    return getNoTasksMessageTemplate();
   }
 
   getElement() {
@@ -24,11 +26,7 @@ export default class LoadMoreButton {
   }
 
   removeElement() {
-    if (this._element === null) {
-      return;
-    }
-
-    this._element.remove();
     this._element = null;
   }
+
 }
