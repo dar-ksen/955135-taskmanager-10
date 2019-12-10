@@ -6,7 +6,7 @@ import LoadMoreButtonComponent from "../components/load-more-button";
 
 import NoTasksMessageComponent from "../components/no-tasks-message";
 
-import { renderComponent, RenderPosition, replace } from "../utils/render";
+import { renderComponent, replace } from "../utils/render";
 import { take } from '../utils/common';
 
 const SHOWING_TASKS_COUNT_ON_START = 8;
@@ -35,7 +35,7 @@ const renderTask = (taskListElement, task) => {
   const taskEditComponent = new InEditTaskComponent(task);
   taskEditComponent.setSubmitHandler(startTaskEditing);
 
-  renderComponent(taskListElement, taskComponent, RenderPosition.BEFORE_END);
+  renderComponent(taskListElement, taskComponent);
 };
 
 export default class BoardController {
@@ -54,11 +54,11 @@ export default class BoardController {
     const inDoingTasks = tasks.filter((task) => !task.isArchive);
 
     if (inDoingTasks.length === 0) {
-      renderComponent(container, this._noTasksMessageComponent, RenderPosition.BEFORE_END);
+      renderComponent(container, this._noTasksMessageComponent);
     } else {
-      renderComponent(container, this._sortComponent, RenderPosition.BEFORE_END);
+      renderComponent(container, this._sortComponent);
 
-      renderComponent(container, this._taskListComponent, RenderPosition.BEFORE_END);
+      renderComponent(container, this._taskListComponent);
 
       let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
 
@@ -66,7 +66,7 @@ export default class BoardController {
         .forEach((task) => renderTask(this._taskListComponent.getElement(), task));
 
       if (showingTasksCount < inDoingTasks.length) {
-        renderComponent(container, this._loadMoreButtonComponent, RenderPosition.BEFORE_END);
+        renderComponent(container, this._loadMoreButtonComponent);
 
         this._loadMoreButtonComponent.setClickHandler(() => {
           take(inDoingTasks, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount)
