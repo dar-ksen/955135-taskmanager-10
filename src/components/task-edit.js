@@ -182,5 +182,10 @@ export default class InEditTask extends AbstractComponent {
   getTemplate() {
     return getTaskEditTemplate(this._task);
   }
+
+  setSubmitHandler(handler) {
+    this.getElement().querySelector(`.js-card__form`).addEventListener(`submit`, handler);
+  }
+
 }
 
