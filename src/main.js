@@ -14,7 +14,7 @@ import { tasks } from './mock/task.js';
 import { generateFilters } from './mock/filter';
 
 import { take } from './utils/common';
-import { renderComponent, RenderPosition } from './utils/render';
+import { renderComponent, RenderPosition, replace } from './utils/render';
 
 const SHOWING_TASKS_COUNT_ON_START = 8;
 const SHOWING_TASKS_COUNT_BY_BUTTON = 8;
@@ -29,13 +29,9 @@ const renderTask = (taskListElement, task) => {
     }
   };
 
-  const startTaskEditing = () => {
-    taskListElement.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
-  };
+  const startTaskEditing = () => replace(taskComponent, taskEditComponent);
 
-  const stopTaskEditing = () => {
-    taskListElement.replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
-  };
+  const stopTaskEditing = () => replace(taskEditComponent, taskComponent);
 
   const taskComponent = new TaskComponent(task);
   taskComponent.setEditButtonClickHandler(() => {

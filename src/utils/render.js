@@ -22,8 +22,21 @@ const renderComponent = (container, component, place) => {
   }
 };
 
+const replace = (newComponent, oldComponent) => {
+  const parentElement = oldComponent.getElement().parentElement;
+  const newElement = newComponent.getElement();
+  const oldElement = oldComponent.getElement();
+
+  const isExistElements = Boolean(parentElement && newElement && oldElement);
+
+  if (isExistElements && parentElement.contains(oldElement)) {
+    parentElement.replaceChild(newElement, oldElement);
+  }
+};
+
 export {
   RenderPosition,
   createElement,
   renderComponent,
+  replace
 };
