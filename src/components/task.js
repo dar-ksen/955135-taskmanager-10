@@ -86,4 +86,10 @@ export default class Task extends AbstractComponent {
   getTemplate() {
     return getTaskTemplate(this._task);
   }
+
+  setEditButtonClickHandler(handler) {
+    this.getElement().querySelector(`.js-card__btn--edit`)
+    .addEventListener(`click`, handler);
+  }
+
 }
