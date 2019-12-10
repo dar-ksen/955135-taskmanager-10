@@ -62,7 +62,8 @@ export default class BoardController {
 
       let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
 
-      take(inDoingTasks, showingTasksCount).forEach((task) => renderTask(this._taskListComponent.getElement(), task));
+      take(inDoingTasks, showingTasksCount)
+        .forEach((task) => renderTask(this._taskListComponent.getElement(), task));
 
       if (showingTasksCount < inDoingTasks.length) {
         renderComponent(container, this._loadMoreButtonComponent, RenderPosition.BEFORE_END);
@@ -70,6 +71,7 @@ export default class BoardController {
         this._loadMoreButtonComponent.setClickHandler(() => {
           take(inDoingTasks, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount)
             .forEach((task) => renderTask(this._taskListComponent.getElement(), task));
+
           showingTasksCount += SHOWING_TASKS_COUNT_BY_BUTTON;
 
           if (showingTasksCount > inDoingTasks.length) {
