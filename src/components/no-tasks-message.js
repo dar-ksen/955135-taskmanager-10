@@ -1,4 +1,4 @@
-import { createElement } from '../utils';
+import AbstractComponent from './abstract-component';
 
 const getNoTasksMessageTemplate = () => {
   return (`
@@ -8,25 +8,8 @@ const getNoTasksMessageTemplate = () => {
   `);
 };
 
-export default class NoTasksMessage {
-  constructor() {
-    this._element = null;
-  }
-
+export default class NoTasksMessage extends AbstractComponent {
   getTemplate() {
     return getNoTasksMessageTemplate();
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-
 }

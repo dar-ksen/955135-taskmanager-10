@@ -1,5 +1,7 @@
-import { Colors, Days } from '../const.js';
-import { createElement, formatTime, formatDate } from '../utils.js';
+import AbstractComponent from './abstract-component';
+
+import { Colors, Days } from '../const';
+import { formatTime, formatDate } from '../utils/common';
 
 const getColorsTemplate = (colors, currentColor) => {
   return colors
@@ -170,27 +172,20 @@ const getTaskEditTemplate = (task) => {
   );
 };
 
-export default class InEditTask {
+export default class InEditTask extends AbstractComponent {
   constructor(task) {
-    this._task = task;
+    super();
 
-    this._element = null;
+    this._task = task;
   }
 
   getTemplate() {
     return getTaskEditTemplate(this._task);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  setSubmitHandler(handler) {
+    this.getElement().querySelector(`.js-card__form`).addEventListener(`submit`, handler);
   }
 
-  removeElement() {
-    this._element = null;
-  }
 }
 
