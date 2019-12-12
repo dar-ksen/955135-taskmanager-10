@@ -38,6 +38,10 @@ const renderTask = (taskListElement, task) => {
   renderComponent(taskListElement, taskComponent);
 };
 
+const renderTasks = (taskListElement, tasks) => {
+  tasks.forEach((task) => renderTask(taskListElement, task));
+};
+
 export default class BoardController {
   constructor(container) {
     this._container = container;
@@ -57,8 +61,7 @@ export default class BoardController {
       renderComponent(container, this._loadMoreButtonComponent);
 
       this._loadMoreButtonComponent.setClickHandler(() => {
-        take(inDoingTasks, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount)
-          .forEach((task) => renderTask(this._taskListComponent.getElement(), task));
+        renderTasks(this._taskListComponent.getElement(), take(inDoingTasks, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount));
 
         showingTasksCount += SHOWING_TASKS_COUNT_BY_BUTTON;
 
@@ -84,8 +87,7 @@ export default class BoardController {
 
     let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
 
-    take(inDoingTasks, showingTasksCount)
-      .forEach((task) => renderTask(this._taskListComponent.getElement(), task));
+    renderTasks(this._taskListComponent.getElement(), take(inDoingTasks, showingTasksCount));
 
     renderLoadMoreButton();
   }
