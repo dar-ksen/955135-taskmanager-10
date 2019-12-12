@@ -1,4 +1,4 @@
-import SortComponent from "../components/sort";
+import SortComponent, { SortType } from "../components/sort";
 import TaskListComponent from "../components/task-list";
 import TaskComponent from "../components/task";
 import InEditTaskComponent from "../components/task-edit";
@@ -53,6 +53,7 @@ export default class BoardController {
   }
 
   render(tasks) {
+
     const renderLoadMoreButton = () => {
       if (showingTasksCount >= inDoingTasks.length) {
         return;
@@ -61,7 +62,7 @@ export default class BoardController {
       renderComponent(container, this._loadMoreButtonComponent);
 
       this._loadMoreButtonComponent.setClickHandler(() => {
-        renderTasks(this._taskListComponent.getElement(), take(inDoingTasks, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount));
+        renderTasks(taskListElement, take(inDoingTasks, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount));
 
         showingTasksCount += SHOWING_TASKS_COUNT_BY_BUTTON;
 
@@ -81,14 +82,45 @@ export default class BoardController {
       return;
     }
 
+    const taskListElement = this._taskListComponent.getElement();
+
     renderComponent(container, this._sortComponent);
 
     renderComponent(container, this._taskListComponent);
 
     let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
 
-    renderTasks(this._taskListComponent.getElement(), take(inDoingTasks, showingTasksCount));
-
+    renderTasks(taskListElement, take(inDoingTasks, showingTasksCount));
     renderLoadMoreButton();
+
+    this._sortComponent.setSortTypeChangeHandler((sortType) => {
+      let sortedTasks = [];
+
+      switch (sortType) {
+        case SortType.DATE_UP:
+          sortedTasks = inDoingTasks.slice().sort((a, b) => a.dueDate - b.dueDate);
+          break;
+        case SortType.DATE_DOWN:
+          sortedTasks = inDoingTasks.slice().sort((a, b) => b.dueDate - a.dueDate);
+          break;
+        case SortType.DEFAULT:
+          showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
+          sortedTasks = take(inDoingTasks, showingTasksCount);
+          break;
+        default :
+          showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
+          sortedTasks = take(inDoingTasks, showingTasksCount);
+      }
+
+      taskListElement.innerHTML = ``;
+      renderTasks(taskListElement, sortedTasks);
+
+      if (sortType === SortType.DEFAULT) {
+        renderLoadMoreButton();
+      } else {
+        this._loadMoreButtonComponent.removeElement();
+      }
+
+    });
   }
 }
