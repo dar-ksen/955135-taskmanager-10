@@ -18,7 +18,7 @@ const tasks = [
     tags: [`keks`],
     color: `yellow`,
     isFavorite: true,
-    isArchive: true
+    isArchive: false
   },
   {
     description: `Сделать домашку`,
@@ -27,7 +27,7 @@ const tasks = [
     tags: [`homework`, `intensive`, `keks`],
     color: `yellow`,
     isFavorite: false,
-    isArchive: true
+    isArchive: false
   },
   {
     description: `Изучить теорию`,
@@ -36,7 +36,16 @@ const tasks = [
     tags: [`homework`, `theory`, `practice`, `intensive`, `keks`],
     color: `green`,
     isFavorite: true,
-    isArchive: true
+    isArchive: false
+  },
+  {
+    description: `Изучить теорию`,
+    dueDate: new Date(Date.UTC(2020, 2, 3, 5, 16, 15)),
+    repeatingDays: { 'mo': false, 'tu': true, 'we': false, 'th': true, 'fr': false, 'sa': false, 'su': false },
+    tags: [`homework`, `theory`, `practice`, `intensive`, `keks`],
+    color: `green`,
+    isFavorite: true,
+    isArchive: false
   },
   {
     description: `Пройти интенсив на соточку`,
@@ -45,7 +54,7 @@ const tasks = [
     tags: [`homework`, `intensive`, `keks`],
     color: `blue`,
     isFavorite: true,
-    isArchive: true
+    isArchive: false
   },
   {
     description: `Пройти интенсив на соточку`,
@@ -72,11 +81,29 @@ const tasks = [
     tags: [`homework`, `keks`],
     color: `green`,
     isFavorite: true,
-    isArchive: true
+    isArchive: false
+  },
+  {
+    description: `Сделать домашку`,
+    dueDate: null,
+    repeatingDays: { 'mo': true, 'tu': true, 'we': true, 'th': false, 'fr': false, 'sa': false, 'su': false },
+    tags: [`homework`, `keks`],
+    color: `green`,
+    isFavorite: true,
+    isArchive: false
+  },
+  {
+    description: `Сделать домашку`,
+    dueDate: new Date(Date.UTC(2020, 0, 1, 5, 45, 15)),
+    repeatingDays: { 'mo': true, 'tu': true, 'we': false, 'th': true, 'fr': false, 'sa': false, 'su': false },
+    tags: [`homework`, `keks`],
+    color: `green`,
+    isFavorite: true,
+    isArchive: false
   },
   {
     description: `Пройти интенсив на соточку`,
-    dueDate: new Date(Date.UTC(2019, 11, 1, 5, 45, 15)),
+    dueDate: new Date(Date.UTC(2020, 2, 1, 5, 16, 15)),
     repeatingDays: DefaultRepeatingDays,
     tags: [`homework`, `intensive`, `keks`],
     color: `blue`,
