@@ -42,9 +42,11 @@ const renderTasks = (taskListElement, tasks) => {
   tasks.forEach((task) => renderTask(taskListElement, task));
 };
 
-const sortByDateInAscendingOrder = (tasks) => tasks.slice().sort((a, b) => a.dueDate - b.dueDate);
+const sortByDateInAscendingOrder = (a, b) => a.dueDate - b.dueDate;
 
-const sortByDateInDescendingOrder = (tasks) => tasks.slice().sort((a, b) => b.dueDate - a.dueDate);
+const sortByDateInDescendingOrder = (a, b) => b.dueDate - a.dueDate;
+
+const sortPurely = (collection, iterate) => collection.slice().sort(iterate);
 
 export default class BoardController {
   constructor(container) {
@@ -101,11 +103,11 @@ export default class BoardController {
 
       switch (sortType) {
         case SortType.DATE_UP: {
-          sortedTasks = sortByDateInAscendingOrder(inDoingTasks);
+          sortedTasks = sortPurely(inDoingTasks, sortByDateInAscendingOrder);
           break;
         }
         case SortType.DATE_DOWN: {
-          sortedTasks = sortByDateInDescendingOrder(inDoingTasks);
+          sortedTasks = sortPurely(inDoingTasks, sortByDateInDescendingOrder);
           break;
         }
         case SortType.DEFAULT:
