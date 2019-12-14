@@ -42,6 +42,10 @@ const renderTasks = (taskListElement, tasks) => {
   tasks.forEach((task) => renderTask(taskListElement, task));
 };
 
+const sortByDateInAscendingOrder = (tasks) => tasks.slice().sort((a, b) => a.dueDate - b.dueDate);
+
+const sortByDateInDescendingOrder = (tasks) => tasks.slice().sort((a, b) => b.dueDate - a.dueDate);
+
 export default class BoardController {
   constructor(container) {
     this._container = container;
@@ -53,20 +57,19 @@ export default class BoardController {
   }
 
   render(tasks) {
-
-    const renderLoadMoreButton = () => {
-      if (showingTasksCount >= inDoingTasks.length) {
+    const renderLoadMoreButton = (arrayTask) => {
+      if (showingTasksCount >= arrayTask.length) {
         return;
       }
 
       renderComponent(container, this._loadMoreButtonComponent);
 
       this._loadMoreButtonComponent.setClickHandler(() => {
-        renderTasks(taskListElement, take(inDoingTasks, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount));
+        renderTasks(taskListElement, take(arrayTask, SHOWING_TASKS_COUNT_BY_BUTTON, showingTasksCount));
 
         showingTasksCount += SHOWING_TASKS_COUNT_BY_BUTTON;
 
-        if (showingTasksCount > inDoingTasks.length) {
+        if (showingTasksCount > arrayTask.length) {
           this._loadMoreButtonComponent.removeElement();
         }
       });
@@ -91,36 +94,33 @@ export default class BoardController {
     let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
 
     renderTasks(taskListElement, take(inDoingTasks, showingTasksCount));
-    renderLoadMoreButton();
+    renderLoadMoreButton(inDoingTasks);
 
     this._sortComponent.setSortTypeChangeHandler((sortType) => {
       let sortedTasks = [];
 
       switch (sortType) {
-        case SortType.DATE_UP:
-          sortedTasks = inDoingTasks.slice().sort((a, b) => a.dueDate - b.dueDate);
+        case SortType.DATE_UP: {
+          sortedTasks = sortByDateInAscendingOrder(inDoingTasks);
           break;
-        case SortType.DATE_DOWN:
-          sortedTasks = inDoingTasks.slice().sort((a, b) => b.dueDate - a.dueDate);
+        }
+        case SortType.DATE_DOWN: {
+          sortedTasks = sortByDateInDescendingOrder(inDoingTasks);
           break;
+        }
         case SortType.DEFAULT:
-          showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
-          sortedTasks = take(inDoingTasks, showingTasksCount);
+        default: {
+          sortedTasks = inDoingTasks;
           break;
-        default :
-          showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
-          sortedTasks = take(inDoingTasks, showingTasksCount);
+        }
       }
+
+      showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
 
       taskListElement.innerHTML = ``;
-      renderTasks(taskListElement, sortedTasks);
+      renderTasks(taskListElement, take(sortedTasks, showingTasksCount));
 
-      if (sortType === SortType.DEFAULT) {
-        renderLoadMoreButton();
-      } else {
-        this._loadMoreButtonComponent.removeElement();
-      }
-
+      renderLoadMoreButton(sortedTasks);
     });
   }
 }
