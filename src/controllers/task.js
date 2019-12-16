@@ -3,34 +3,81 @@ import InEditTaskComponent from "../components/task-edit";
 
 import { renderComponent, replace } from "../utils/render";
 
+const Mode = {
+  DEFAULT: `default`,
+  EDIT: `edit`,
+};
+
 export default class TaskController {
-  constructor(container) {
+  constructor(container, onDataChange, onViewChange) {
     this._container = container;
+    this._onDataChange = onDataChange;
+    this._onViewChange = onViewChange;
+
+    this._mode = Mode.DEFAULT;
+
+    this._taskComponent = null;
+    this._InEditTaskComponent = null;
+
+    this._onEscKeyDown = this._onEscKeyDown.bind(this);
   }
 
   render(task) {
-    const taskComponent = new TaskComponent(task);
-    const taskEditComponent = new InEditTaskComponent(task);
+    const oldTaskComponent = this._taskComponent;
+    const oldInEditTaskComponent = this._InEditTaskComponent;
 
-    const onEscKeyDown = (evt) => {
-      const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-      if (isEscKey) {
-        startTaskEditing();
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      }
-    };
+    this._taskComponent = new TaskComponent(task);
+    this._InEditTaskComponent = new InEditTaskComponent(task);
 
-    const startTaskEditing = () => replace(taskComponent, taskEditComponent);
-
-    const stopTaskEditing = () => replace(taskEditComponent, taskComponent);
-
-    taskComponent.setEditButtonClickHandler(() => {
-      stopTaskEditing();
-      document.addEventListener(`keydown`, onEscKeyDown);
+    this._taskComponent.setEditButtonClickHandler(() => {
+      this._startTaskEditing();
+      document.addEventListener(`keydown`, this._onEscKeyDown);
     });
 
-    taskEditComponent.setSubmitHandler(startTaskEditing);
+    this._taskComponent.setFavoritesButtonClickHandler(() => {
+      const updateTask = Object.assign({}, task, { isFavorite: !task.isFavorite });
+      this._onDataChange(this, task, updateTask);
+    });
 
-    renderComponent(this._container, taskComponent);
+    this._taskComponent.setArchiveButtonClickHandler(() => {
+      const updateTask = Object.assign({}, task, { isArchive: !task.isArchive });
+      this._onDataChange(this, task, updateTask);
+    });
+
+    this._InEditTaskComponent.setSubmitHandler(() => this._stopTaskEditing());
+
+    if (oldInEditTaskComponent && oldTaskComponent) {
+      replace(this._taskComponent, oldTaskComponent);
+      replace(this._taskEditComponent, oldInEditTaskComponent);
+    } else {
+      renderComponent(this._container, this._taskComponent);
+    }
+  }
+
+  setDefaultView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._stopTaskEditing();
+    }
+  }
+
+  _startTaskEditing() {
+    this._onViewChange();
+
+    replace(this._InEditTaskComponent, this._taskComponent);
+    this._mode = Mode.EDIT;
+  }
+
+  _stopTaskEditing() {
+    replace(this._taskComponent, this._InEditTaskComponent);
+    this._mode = Mode.DEFAULT;
+  }
+
+  _onEscKeyDown(evt) {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+
+    if (isEscKey) {
+      this._stopTaskEditing();
+      document.removeEventListener(`keydown`, this._onEscKeyDown);
+    }
   }
 }
