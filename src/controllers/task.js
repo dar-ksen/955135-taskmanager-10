@@ -35,20 +35,22 @@ export default class TaskController {
     });
 
     this._taskComponent.setFavoritesButtonClickHandler(() => {
-      const updateTask = Object.assign({}, task, { isFavorite: !task.isFavorite });
-      this._onDataChange(this, task, updateTask);
+      this._onDataChange(this, task, Object.assign({}, task, {
+        isFavorite: !task.isFavorite,
+      }));
     });
 
     this._taskComponent.setArchiveButtonClickHandler(() => {
-      const updateTask = Object.assign({}, task, { isArchive: !task.isArchive });
-      this._onDataChange(this, task, updateTask);
+      this._onDataChange(this, task, Object.assign({}, task, {
+        isArchive: !task.isArchive,
+      }));
     });
 
     this._InEditTaskComponent.setSubmitHandler(() => this._stopTaskEditing());
 
     if (oldInEditTaskComponent && oldTaskComponent) {
       replace(this._taskComponent, oldTaskComponent);
-      replace(this._taskEditComponent, oldInEditTaskComponent);
+      replace(this._InEditTaskComponent, oldInEditTaskComponent);
     } else {
       renderComponent(this._container, this._taskComponent);
     }
