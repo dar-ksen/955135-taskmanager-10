@@ -14,6 +14,17 @@ const getHashtagsTemplate = (tags) => {
   }).join(`\n`);
 };
 
+const createButtonTemplate = (name, isActive) => {
+  return (
+    `<button
+      type="button"
+      class="card__btn card__btn--${name} js-card__btn--${name} ${isActive ? `` : `card__btn--disabled`}"
+    >
+      ${name}
+    </button>`
+  );
+};
+
 const getTaskTemplate = (task) => {
   const { description, tags, dueDate, color, repeatingDays } = task;
 
@@ -24,6 +35,11 @@ const getTaskTemplate = (task) => {
   const time = isDateShowing ? formatTime(dueDate) : ``;
 
   const hashtagsTemplate = getHashtagsTemplate(tags);
+
+  const editButton = createButtonTemplate(`edit`, true);
+  const archiveButton = createButtonTemplate(`archive`, task.isArchive);
+  const favoritesButton = createButtonTemplate(`favorites`, task.isFavorite);
+
   const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
   const deadlineClass = isExpired ? `card--deadline` : ``;
 
@@ -32,18 +48,9 @@ const getTaskTemplate = (task) => {
       <div class="card__form">
         <div class="card__inner">
           <div class="card__control">
-            <button type="button" class="card__btn card__btn--edit js-card__btn--edit">
-              edit
-            </button>
-            <button type="button" class="card__btn card__btn--archive">
-              archive
-            </button>
-            <button
-              type="button"
-              class="card__btn card__btn--favorites card__btn--disabled"
-            >
-              favorites
-            </button>
+            ${editButton}
+            ${archiveButton}
+            ${favoritesButton}
           </div>
           <div class="card__color-bar">
             <svg class="card__color-bar-wave" width="100%" height="10">
@@ -92,4 +99,13 @@ export default class Task extends AbstractComponent {
     .addEventListener(`click`, handler);
   }
 
+  setFavoritesButtonClickHandler(handler) {
+    this.getElement().querySelector(`.js-card__btn--favorites`)
+    .addEventListener(`click`, handler);
+  }
+
+  setArchiveButtonClickHandler(handler) {
+    this.getElement().querySelector(`.js-card__btn--archive`)
+    .addEventListener(`click`, handler);
+  }
 }
