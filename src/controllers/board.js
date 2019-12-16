@@ -1,45 +1,21 @@
 import SortComponent, { SortType } from "../components/sort";
 import TaskListComponent from "../components/task-list";
-import TaskComponent from "../components/task";
-import InEditTaskComponent from "../components/task-edit";
 import LoadMoreButtonComponent from "../components/load-more-button";
-
 import NoTasksMessageComponent from "../components/no-tasks-message";
 
-import { renderComponent, replace } from "../utils/render";
+import TaskController from './task';
+
+import { renderComponent } from "../utils/render";
 import { take } from '../utils/common';
 
 const SHOWING_TASKS_COUNT_ON_START = 8;
 const SHOWING_TASKS_COUNT_BY_BUTTON = 8;
 
-const renderTask = (taskListElement, task) => {
-  const onEscKeyDown = (evt) => {
-    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-
-    if (isEscKey) {
-      startTaskEditing();
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    }
-  };
-
-  const startTaskEditing = () => replace(taskComponent, taskEditComponent);
-
-  const stopTaskEditing = () => replace(taskEditComponent, taskComponent);
-
-  const taskComponent = new TaskComponent(task);
-  taskComponent.setEditButtonClickHandler(() => {
-    stopTaskEditing();
-    document.addEventListener(`keydown`, onEscKeyDown);
-  });
-
-  const taskEditComponent = new InEditTaskComponent(task);
-  taskEditComponent.setSubmitHandler(startTaskEditing);
-
-  renderComponent(taskListElement, taskComponent);
-};
-
 const renderTasks = (taskListElement, tasks) => {
-  tasks.forEach((task) => renderTask(taskListElement, task));
+  tasks.forEach((task) => {
+    const taskController = new TaskController(taskListElement);
+    taskController.render(task);
+  });
 };
 
 const sortByDateInAscendingOrder = (a, b) => a.dueDate - b.dueDate;
