@@ -208,18 +208,18 @@ export default class InEditTask extends AbstractSmartComponent {
 
     date.addEventListener(`click`, () => {
       this._isDateShowing = !this._isDateShowing;
-      this.reRender();
+      this.rerender();
     });
 
     repeat.addEventListener(`click`, () => {
       this._isRepeatingTask = !this._isRepeatingTask;
-      this.reRender();
+      this.rerender();
     });
 
     if (repeatDays) {
       repeatDays.addEventListener(`change`, (evt) => {
         this._activeRepeatingDays[evt.target.value] = evt.target.checked;
-        this.reRender();
+        this.rerender();
       });
     }
   }
