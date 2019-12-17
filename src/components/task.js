@@ -1,6 +1,6 @@
 import AbstractComponent from './abstract-component';
 
-import { formatTime, formatDate } from '../utils/common';
+import { formatTime, formatDate, isRepeating } from '../utils/common';
 
 const getHashtagsTemplate = (tags) => {
   return tags.map((tag) => {
@@ -40,7 +40,7 @@ const getTaskTemplate = (task) => {
   const archiveButton = createButtonTemplate(`archive`, task.isArchived);
   const favoritesButton = createButtonTemplate(`favorites`, task.isFavored);
 
-  const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
+  const repeatClass = isRepeating(repeatingDays) ? `card--repeat` : ``;
   const deadlineClass = isExpired ? `card--deadline` : ``;
 
   return (
