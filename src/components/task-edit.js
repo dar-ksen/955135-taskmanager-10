@@ -177,7 +177,7 @@ export default class InEditTask extends AbstractSmartComponent {
     this._task = task;
     this._isDateShowing = Boolean(task.dueDate);
     this._isRepeatingTask = Object.values(task.repeatingDays).some(Boolean);
-    this._activeRepeatingDays = Object.assign({}, task.repeatingDays);
+    this._activeRepeatingDays = { ...task.repeatingDays };
 
     this._subscribeOnEvents();
   }
