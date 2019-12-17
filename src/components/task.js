@@ -37,8 +37,8 @@ const getTaskTemplate = (task) => {
   const hashtagsTemplate = getHashtagsTemplate(tags);
 
   const editButton = createButtonTemplate(`edit`, true);
-  const archiveButton = createButtonTemplate(`archive`, task.isArchive);
-  const favoritesButton = createButtonTemplate(`favorites`, task.isFavorite);
+  const archiveButton = createButtonTemplate(`archive`, task.isArchived);
+  const favoritesButton = createButtonTemplate(`favorites`, task.isFavored);
 
   const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
   const deadlineClass = isExpired ? `card--deadline` : ``;

@@ -203,7 +203,7 @@ export default class InEditTask extends AbstractSmartComponent {
   _subscribeOnEvents() {
     const $date = this.getElement().querySelector(`.js-card__date-deadline-toggle`);
     const $repeat = this.getElement().querySelector(`.js-card__repeat-toggle`);
-    const $repeatDays = this.getElement().querySelector(`.js-card__repeat-days`);
+    const $repeatDay = this.getElement().querySelector(`.js-card__repeat-days`);
 
     $date.addEventListener(`click`, () => {
       this._isDateShowing = !this._isDateShowing;
@@ -215,8 +215,8 @@ export default class InEditTask extends AbstractSmartComponent {
       this.rerender();
     });
 
-    if ($repeatDays) {
-      $repeatDays.addEventListener(`change`, (evt) => {
+    if ($repeatDay) {
+      $repeatDay.addEventListener(`change`, (evt) => {
         this._activeRepeatingDays[evt.target.value] = evt.target.checked;
         this.rerender();
       });
