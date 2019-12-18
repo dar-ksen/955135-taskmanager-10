@@ -8,16 +8,16 @@ import { tasks } from './mock/task.js';
 import { generateFilters } from './mock/filter';
 import { renderComponent } from './utils/render';
 
-const siteMainElement = document.querySelector(`.js-main`);
-const siteMainControlElement = siteMainElement.querySelector(`.js-main__control`);
+const $siteMain = document.querySelector(`.js-main`);
+const $siteMainControl = $siteMain.querySelector(`.js-main__control`);
 
-renderComponent(siteMainControlElement, new MenuComponent());
+renderComponent($siteMainControl, new MenuComponent());
 
 const filters = generateFilters(tasks);
-renderComponent(siteMainElement, new FilterComponent(filters));
+renderComponent($siteMain, new FilterComponent(filters));
 
 const boardComponent = new BoardComponent();
-renderComponent(siteMainElement, boardComponent);
+renderComponent($siteMain, boardComponent);
 
 const boardController = new BoardController(boardComponent);
 
