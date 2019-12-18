@@ -1,7 +1,7 @@
 import TaskComponent from "../components/task";
 import InEditTaskComponent from "../components/task-edit";
 
-import { renderComponent, replace } from "../utils/render";
+import { renderComponent, replaceComponent } from "../utils/render";
 
 const Mode = {
   DEFAULT: `default`,
@@ -35,22 +35,18 @@ export default class TaskController {
     });
 
     this._taskComponent.setFavoritesButtonClickHandler(() => {
-      this._onDataChange(this, task, Object.assign({}, task, {
-        isFavored: !task.isFavored,
-      }));
+      this._onDataChange(this, task, { ...task, isFavored: !task.isFavored });
     });
 
     this._taskComponent.setArchiveButtonClickHandler(() => {
-      this._onDataChange(this, task, Object.assign({}, task, {
-        isArchived: !task.isArchived,
-      }));
+      this._onDataChange(this, task, { ...task, isArchived: !task.isArchived });
     });
 
     this._InEditTaskComponent.setSubmitHandler(() => this._stopTaskEditing());
 
     if (oldInEditTaskComponent && oldTaskComponent) {
-      replace(this._taskComponent, oldTaskComponent);
-      replace(this._InEditTaskComponent, oldInEditTaskComponent);
+      replaceComponent(this._taskComponent, oldTaskComponent);
+      replaceComponent(this._InEditTaskComponent, oldInEditTaskComponent);
     } else {
       renderComponent(this._container, this._taskComponent);
     }
@@ -65,12 +61,12 @@ export default class TaskController {
   _startTaskEditing() {
     this._onViewChange();
 
-    replace(this._InEditTaskComponent, this._taskComponent);
+    replaceComponent(this._InEditTaskComponent, this._taskComponent);
     this._mode = Mode.EDIT;
   }
 
   _stopTaskEditing() {
-    replace(this._taskComponent, this._InEditTaskComponent);
+    replaceComponent(this._taskComponent, this._InEditTaskComponent);
     this._mode = Mode.DEFAULT;
   }
 
