@@ -5,7 +5,7 @@ import NoTasksMessageComponent from "../components/no-tasks-message";
 
 import TaskController from './task';
 
-import { renderComponent, remove } from "../utils/render";
+import { renderComponent, removeComponent } from "../utils/render";
 import { take } from '../utils/common';
 
 const SHOWING_TASKS_COUNT_ON_START = 8;
@@ -103,7 +103,7 @@ export default class BoardController {
       this._showedTasksCount = this._showedTasksCount + SHOWING_TASKS_COUNT_BY_BUTTON;
 
       if (this._showedTasksCount >= arrayTasks.length) {
-        remove(this._loadMoreButtonComponent);
+        removeComponent(this._loadMoreButtonComponent);
       }
     });
   }

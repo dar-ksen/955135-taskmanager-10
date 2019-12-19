@@ -22,7 +22,7 @@ const renderComponent = (container, component, place = RenderPosition.BEFORE_END
   }
 };
 
-const remove = (component) => {
+const removeComponent = (component) => {
   component.getElement().remove();
   component.removeElement();
 };
@@ -43,6 +43,6 @@ export {
   RenderPosition,
   createElement,
   renderComponent,
-  remove,
+  removeComponent,
   replaceComponent
 };
