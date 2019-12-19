@@ -230,7 +230,8 @@ export default class InEditTask extends AbstractSmartComponent {
     if (this._isDateShowing) {
       const dateElement = this.getElement().querySelector(`.card__date`);
       this._flatpickr = flatpickr(dateElement, {
-        altInput: true,
+        dateFormat: `d F y H:i`,
+        enableTime: true,
         allowInput: true,
         defaultDate: this._task.dueDate,
       });
