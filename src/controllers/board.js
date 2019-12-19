@@ -83,7 +83,7 @@ export default class BoardController {
   }
 
   _onViewChange() {
-    this._showedTaskControllers.forEach((task) => task.setDefaultView());
+    this._showedTaskControllers.forEach((controller) => controller.setDefaultView());
   }
 
   _renderLoadMoreButton(arrayTasks) {
