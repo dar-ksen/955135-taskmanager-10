@@ -75,7 +75,7 @@ export default class BoardController {
   }
 
   _onDataChange(taskController, replaceableTask, replacementTask) {
-    const index = this._tasks.findIndex((it) => it === replaceableTask);
+    const index = this._tasks.findIndex((task) => task === replaceableTask);
 
     this._tasks = replace(this._tasks, replacementTask, index);
 
@@ -83,7 +83,7 @@ export default class BoardController {
   }
 
   _onViewChange() {
-    this._showedTaskControllers.forEach((it) => it.setDefaultView());
+    this._showedTaskControllers.forEach((task) => task.setDefaultView());
   }
 
   _renderLoadMoreButton(arrayTasks) {
