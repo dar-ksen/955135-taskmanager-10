@@ -69,8 +69,8 @@ export default class BoardController {
 
     const $taskList = this._taskListComponent.getElement();
 
-    const newTasks = renderTasks($taskList, take(this._tasks, this._showedTasksCount), this._binders);
-    this._showedTaskControllers = [...this._showedTaskControllers, ...newTasks];
+    const additionalTaskControllers = renderTasks($taskList, take(this._tasks, this._showedTasksCount), this._binders);
+    this._showedTaskControllers = [...this._showedTaskControllers, ...additionalTaskControllers];
     this._renderLoadMoreButton(this._tasks);
   }
 
@@ -98,8 +98,8 @@ export default class BoardController {
     this._loadMoreButtonComponent.setClickHandler(() => {
       const $taskList = this._taskListComponent.getElement();
 
-      const newTasks = renderTasks($taskList, take(arrayTasks, SHOWING_TASKS_COUNT_BY_BUTTON, this._showedTasksCount), this._binders);
-      this._showedTaskControllers = [...this._showedTaskControllers, ...newTasks];
+      const additionalTaskControllers = renderTasks($taskList, take(arrayTasks, SHOWING_TASKS_COUNT_BY_BUTTON, this._showedTasksCount), this._binders);
+      this._showedTaskControllers = [...this._showedTaskControllers, ...additionalTaskControllers];
       this._showedTasksCount = this._showedTasksCount + SHOWING_TASKS_COUNT_BY_BUTTON;
 
       if (this._showedTasksCount >= arrayTasks.length) {
@@ -130,10 +130,10 @@ export default class BoardController {
     const $taskList = this._taskListComponent.getElement();
     $taskList.innerHTML = ``;
 
-    const newTasks = renderTasks($taskList, take(sortedTasks, SHOWING_TASKS_COUNT_BY_BUTTON, this.showingTasksCount), this._binders);
+    const additionalTaskControllers = renderTasks($taskList, take(sortedTasks, SHOWING_TASKS_COUNT_BY_BUTTON, this.showingTasksCount), this._binders);
     this._showedTasksCount = SHOWING_TASKS_COUNT_ON_START;
 
-    this._showedTaskControllers = newTasks;
+    this._showedTaskControllers = additionalTaskControllers;
 
     this._renderLoadMoreButton(sortedTasks);
   }
