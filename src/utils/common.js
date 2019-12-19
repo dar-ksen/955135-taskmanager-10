@@ -19,10 +19,12 @@ const formatDate = (date) => DateFormatter.format(date);
 const isFirst = (index) => index === 0;
 const take = (array, count, startPos = 0) => array.slice(startPos, startPos + count);
 
+const isRepeating = (repeatingDays) => Object.values(repeatingDays).some(Boolean);
 
 export {
   formatTime,
   formatDate,
   isFirst,
   take,
+  isRepeating,
 };

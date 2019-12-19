@@ -1,4 +1,4 @@
-import AbstractComponent from './abstract-component';
+import AbstractSmartComponent from './abstract-smart-component';
 
 import { Colors, Days } from '../const';
 import { formatTime, formatDate } from '../utils/common';
@@ -71,22 +71,21 @@ const getHashtagsTemplate = (tags) => {
     .join(`\n`);
 };
 
-const getTaskEditTemplate = (task) => {
-  const { description, tags, dueDate, color, repeatingDays } = task;
+const getTaskEditTemplate = (task, options = {}) => {
+  const { description, tags, dueDate, color } = task;
+  const { isDateShowing, isRepeatingTask, activeRepeatingDays } = options;
+
+  const hashtagsTemplate = getHashtagsTemplate(tags);
+  const colorsTemplate = getColorsTemplate(Colors, color);
+  const repeatingDaysTemplate = getRepeatingDaysTemplate(Days, activeRepeatingDays);
 
   const isExpired = dueDate instanceof Date && dueDate < Date.now();
-  const isDateShowing = Boolean(dueDate);
 
   const date = isDateShowing ? formatDate(dueDate) : ``;
   const time = isDateShowing ? formatTime(dueDate) : ``;
 
-  const isRepeatingTask = Object.values(repeatingDays).some(Boolean);
   const repeatClass = isRepeatingTask ? `card--repeat` : ``;
   const deadlineClass = isExpired ? `card--deadline` : ``;
-
-  const hashtagsTemplate = getHashtagsTemplate(tags);
-  const colorsTemplate = getColorsTemplate(Colors, color);
-  const repeatingDaysTemplate = getRepeatingDaysTemplate(Days, repeatingDays);
 
   return (
     `<article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
@@ -111,7 +110,7 @@ const getTaskEditTemplate = (task) => {
             <div class="card__settings">
               <div class="card__details">
                 <div class="card__dates">
-                  <button class="card__date-deadline-toggle" type="button">
+                  <button class="card__date-deadline-toggle js-card__date-deadline-toggle" type="button">
                     date: <span class="card__date-status">${isDateShowing ? `yes` : `no`}</span>
                   </button>
 
@@ -127,11 +126,11 @@ const getTaskEditTemplate = (task) => {
                         </label>
                       </fieldset>` : ``}
 
-                  <button class="card__repeat-toggle" type="button">
+                  <button class="card__repeat-toggle js-card__repeat-toggle" type="button">
                     repeat:<span class="card__repeat-status">${isRepeatingTask ? `yes` : `no`}</span>
                   </button>
 
-                  ${isRepeatingTask ? `<fieldset class="card__repeat-days">
+                  ${isRepeatingTask ? `<fieldset class="card__repeat-days js-card__repeat-days">
                       <div class="card__repeat-days-inner">
                         ${repeatingDaysTemplate}
                       </div>
@@ -172,20 +171,56 @@ const getTaskEditTemplate = (task) => {
   );
 };
 
-export default class InEditTask extends AbstractComponent {
+export default class InEditTask extends AbstractSmartComponent {
   constructor(task) {
     super();
-
     this._task = task;
+    this._isDateShowing = Boolean(task.dueDate);
+    this._isRepeatingTask = Object.values(task.repeatingDays).some(Boolean);
+    this._activeRepeatingDays = { ...task.repeatingDays };
+
+    this._subscribeOnEvents();
   }
 
   getTemplate() {
-    return getTaskEditTemplate(this._task);
+    const options = {
+      isDateShowing: this._isDateShowing,
+      isRepeatingTask: this._isRepeatingTask,
+      activeRepeatingDays: this._activeRepeatingDays,
+    };
+    return getTaskEditTemplate(this._task, options);
   }
 
   setSubmitHandler(handler) {
-    this.getElement().querySelector(`.js-card__form`).addEventListener(`submit`, handler);
+    this.getElement().querySelector(`.js-card__form`)
+      .addEventListener(`submit`, handler);
   }
 
+  recoveryListeners() {
+    this._subscribeOnEvents();
+  }
+
+  _subscribeOnEvents() {
+    const $date = this.getElement().querySelector(`.js-card__date-deadline-toggle`);
+    const $repeat = this.getElement().querySelector(`.js-card__repeat-toggle`);
+    const $repeatDay = this.getElement().querySelector(`.js-card__repeat-days`);
+
+    $date.addEventListener(`click`, () => {
+      this._isDateShowing = !this._isDateShowing;
+      this.rerender();
+    });
+
+    $repeat.addEventListener(`click`, () => {
+      this._isRepeatingTask = !this._isRepeatingTask;
+      this.rerender();
+    });
+
+    if ($repeatDay) {
+      $repeatDay.addEventListener(`change`, (evt) => {
+        this._activeRepeatingDays[evt.target.value] = evt.target.checked;
+        this.rerender();
+      });
+    }
+  }
 }
 

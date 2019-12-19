@@ -17,8 +17,8 @@ const tasks = [
     repeatingDays: { 'mo': false, 'tu': true, 'we': false, 'th': true, 'fr': false, 'sa': false, 'su': false },
     tags: [`keks`],
     color: `yellow`,
-    isFavorite: true,
-    isArchive: false
+    isFavored: true,
+    isArchived: false
   },
   {
     description: `Сделать домашку`,
@@ -26,8 +26,8 @@ const tasks = [
     repeatingDays: DefaultRepeatingDays,
     tags: [`homework`, `intensive`, `keks`],
     color: `yellow`,
-    isFavorite: false,
-    isArchive: false
+    isFavored: false,
+    isArchived: false
   },
   {
     description: `Изучить теорию`,
@@ -35,8 +35,8 @@ const tasks = [
     repeatingDays: { 'mo': false, 'tu': true, 'we': false, 'th': true, 'fr': false, 'sa': false, 'su': false },
     tags: [`homework`, `theory`, `practice`, `intensive`, `keks`],
     color: `green`,
-    isFavorite: true,
-    isArchive: false
+    isFavored: true,
+    isArchived: false
   },
   {
     description: `Изучить теорию`,
@@ -44,8 +44,8 @@ const tasks = [
     repeatingDays: { 'mo': false, 'tu': true, 'we': false, 'th': true, 'fr': false, 'sa': false, 'su': false },
     tags: [`homework`, `theory`, `practice`, `intensive`, `keks`],
     color: `green`,
-    isFavorite: true,
-    isArchive: false
+    isFavored: true,
+    isArchived: false
   },
   {
     description: `Пройти интенсив на соточку`,
@@ -53,8 +53,8 @@ const tasks = [
     repeatingDays: DefaultRepeatingDays,
     tags: [`homework`, `intensive`, `keks`],
     color: `blue`,
-    isFavorite: true,
-    isArchive: false
+    isFavored: true,
+    isArchived: false
   },
   {
     description: `Пройти интенсив на соточку`,
@@ -62,8 +62,8 @@ const tasks = [
     repeatingDays: DefaultRepeatingDays,
     tags: [`homework`, `intensive`, `keks`],
     color: `blue`,
-    isFavorite: false,
-    isArchive: true
+    isFavored: false,
+    isArchived: true
   },
   {
     description: `Сделать домашку`,
@@ -71,8 +71,8 @@ const tasks = [
     repeatingDays: DefaultRepeatingDays,
     tags: [`homework`, `intensive`, `keks`],
     color: `pink`,
-    isFavorite: true,
-    isArchive: false
+    isFavored: true,
+    isArchived: false
   },
   {
     description: `Изучить теорию`,
@@ -80,8 +80,8 @@ const tasks = [
     repeatingDays: { 'mo': true, 'tu': true, 'we': false, 'th': false, 'fr': false, 'sa': false, 'su': false },
     tags: [`homework`, `keks`],
     color: `green`,
-    isFavorite: true,
-    isArchive: false
+    isFavored: true,
+    isArchived: false
   },
   {
     description: `Сделать домашку`,
@@ -89,8 +89,8 @@ const tasks = [
     repeatingDays: { 'mo': true, 'tu': true, 'we': true, 'th': false, 'fr': false, 'sa': false, 'su': false },
     tags: [`homework`, `keks`],
     color: `green`,
-    isFavorite: true,
-    isArchive: false
+    isFavored: true,
+    isArchived: false
   },
   {
     description: `Сделать домашку`,
@@ -98,8 +98,8 @@ const tasks = [
     repeatingDays: { 'mo': true, 'tu': true, 'we': false, 'th': true, 'fr': false, 'sa': false, 'su': false },
     tags: [`homework`, `keks`],
     color: `green`,
-    isFavorite: true,
-    isArchive: false
+    isFavored: true,
+    isArchived: false
   },
   {
     description: `Пройти интенсив на соточку`,
@@ -107,8 +107,8 @@ const tasks = [
     repeatingDays: DefaultRepeatingDays,
     tags: [`homework`, `intensive`, `keks`],
     color: `blue`,
-    isFavorite: false,
-    isArchive: true
+    isFavored: false,
+    isArchived: true
   },
   {
     description: `Сделать домашку`,
@@ -116,8 +116,8 @@ const tasks = [
     repeatingDays: DefaultRepeatingDays,
     tags: [`intensive`, `keks`],
     color: `black`,
-    isFavorite: true,
-    isArchive: false
+    isFavored: true,
+    isArchived: false
   },
   {
     description: `Изучить теорию`,
@@ -125,8 +125,8 @@ const tasks = [
     repeatingDays: { 'mo': true, 'tu': true, 'we': false, 'th': false, 'fr': false, 'sa': false, 'su': false },
     tags: [],
     color: `green`,
-    isFavorite: true,
-    isArchive: true
+    isFavored: true,
+    isArchived: true
   },
   {
     description: `Пройти интенсив на соточку`,
@@ -134,8 +134,8 @@ const tasks = [
     repeatingDays: DefaultRepeatingDays,
     tags: [`homework`, `intensive`, `keks`],
     color: `blue`,
-    isFavorite: false,
-    isArchive: true
+    isFavored: false,
+    isArchived: true
   },
 ];
 
