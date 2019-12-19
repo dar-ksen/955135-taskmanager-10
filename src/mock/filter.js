@@ -1,7 +1,7 @@
 const today = new Date();
 
 const generateFilters = (tasks) => {
-  const inDoingTasks = tasks.filter((task) => !task.isArchive);
+  const inDoingTasks = tasks.filter((task) => !task.isArchived);
   return [
     {
       name: `all`,
@@ -17,7 +17,7 @@ const generateFilters = (tasks) => {
     },
     {
       name: `favorites`,
-      count: inDoingTasks.filter(({ isFavorite }) => isFavorite).length,
+      count: inDoingTasks.filter(({ isFavored }) => isFavored).length,
     },
     {
       name: `repeating`,
@@ -29,7 +29,7 @@ const generateFilters = (tasks) => {
     },
     {
       name: `archive`,
-      count: tasks.filter(({ isArchive }) => isArchive).length,
+      count: tasks.filter(({ isArchived }) => isArchived).length,
     },
   ];
 };

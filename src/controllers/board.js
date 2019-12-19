@@ -56,7 +56,7 @@ export default class BoardController {
 
     const container = this._container.getElement();
 
-    const inDoingTasks = this._tasks.filter((task) => !task.isArchive);
+    const inDoingTasks = this._tasks.filter((task) => !task.isArchived);
 
     if (inDoingTasks.length === 0) {
       renderComponent(container, this._noTasksMessageComponent);
