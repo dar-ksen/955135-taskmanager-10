@@ -8,6 +8,7 @@ export default class Tasks {
 
     this._activeFilterType = FilterType.ALL;
 
+    this._dataChangeHandlers = [];
     this._filterChangeHandlers = [];
   }
 
@@ -35,13 +36,19 @@ export default class Tasks {
       return false;
     }
 
-    replace(this._tasks, updatedTask, index);
+    this._tasks = replace(this._tasks, updatedTask, index);
+
+    this._dataChangeHandlers.forEach((handler) => handler());
 
     return true;
   }
 
   setFilterChangeHandler(handler) {
     this._filterChangeHandlers.push(handler);
+  }
+
+  setDataChangeHandler(handler) {
+    this._dataChangeHandlers.push(handler);
   }
 
 }
