@@ -145,6 +145,7 @@ export default class BoardController {
     const $taskList = this._taskListComponent.getElement();
     $taskList.innerHTML = ``;
     const tasks = this._tasksModel.getTasks();
+    this._showedTasksCount = SHOWING_TASKS_COUNT_ON_START;
     const additionalTaskControllers = renderTasks($taskList, take(tasks, SHOWING_TASKS_COUNT_BY_BUTTON, this.showingTasksCount), this._binders);
     this._showedTaskControllers = additionalTaskControllers;
 
