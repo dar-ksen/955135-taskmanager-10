@@ -8,10 +8,13 @@ const take = (array, count, startPos = 0) => array.slice(startPos, startPos + co
 
 const isRepeating = (repeatingDays) => Object.values(repeatingDays).some(Boolean);
 
+const replace = (collection, replacement, index) => [...collection.slice(0, index), replacement, ...collection.slice(index + 1)];
+
 export {
   formatTime,
   formatDate,
   isFirst,
   take,
   isRepeating,
+  replace
 };
