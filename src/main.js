@@ -24,7 +24,7 @@ renderComponent($siteMain, new FilterComponent(filters));
 const boardComponent = new BoardComponent();
 renderComponent($siteMain, boardComponent);
 
-const boardController = new BoardController(boardComponent);
+const boardController = new BoardController(boardComponent, tasksModel);
 
 boardController.render(tasks);
 

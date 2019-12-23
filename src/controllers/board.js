@@ -6,7 +6,7 @@ import NoTasksMessageComponent from "../components/no-tasks-message";
 import TaskController from './task';
 
 import { renderComponent, removeComponent } from "../utils/render";
-import { take, replace } from '../utils/common';
+import { take } from '../utils/common';
 
 const SHOWING_TASKS_COUNT_ON_START = 8;
 const SHOWING_TASKS_COUNT_BY_BUTTON = 8;
@@ -28,9 +28,10 @@ const renderTasks = ($taskList, tasks, { onDataChange, onViewChange }) => {
 };
 
 export default class BoardController {
-  constructor(container) {
+  constructor(container, tasksModel) {
     this._container = container;
-    this._tasks = [];
+    this._tasksModel = tasksModel;
+
     this._showedTaskControllers = [];
     this._showedTasksCount = SHOWING_TASKS_COUNT_ON_START;
 
@@ -50,12 +51,12 @@ export default class BoardController {
     };
   }
 
-  render(tasks) {
-    this._tasks = tasks;
+  render() {
+    const tasks = this._tasksModel.getTasks();
 
     const container = this._container.getElement();
 
-    const inDoingTasks = this._tasks.filter((task) => !task.isArchived);
+    const inDoingTasks = tasks.filter((task) => !task.isArchived);
 
     if (inDoingTasks.length === 0) {
       renderComponent(container, this._noTasksMessageComponent);
@@ -68,25 +69,25 @@ export default class BoardController {
 
     const $taskList = this._taskListComponent.getElement();
 
-    const additionalTaskControllers = renderTasks($taskList, take(this._tasks, this._showedTasksCount), this._binders);
+    const additionalTaskControllers = renderTasks($taskList, take(tasks, this._showedTasksCount), this._binders);
     this._showedTaskControllers = [...this._showedTaskControllers, ...additionalTaskControllers];
-    this._renderLoadMoreButton(this._tasks);
+    this._renderLoadMoreButton(tasks);
   }
 
   _onDataChange(taskController, replaceableTask, replacementTask) {
-    const index = this._tasks.findIndex((task) => task === replaceableTask);
+    const isSuccess = this._tasksModel.updateTask(replaceableTask.id, replacementTask);
 
-    this._tasks = replace(this._tasks, replacementTask, index);
-
-    taskController.render(this._tasks[index]);
+    if (isSuccess) {
+      taskController.render(replacementTask);
+    }
   }
 
   _onViewChange() {
     this._showedTaskControllers.forEach((controller) => controller.setDefaultView());
   }
 
-  _renderLoadMoreButton(arrayTasks) {
-    if (this._showedTasksCount >= arrayTasks.length) {
+  _renderLoadMoreButton(tasks) {
+    if (this._showedTasksCount >= tasks.length) {
       return;
     }
 
@@ -97,31 +98,32 @@ export default class BoardController {
     this._loadMoreButtonComponent.setClickHandler(() => {
       const $taskList = this._taskListComponent.getElement();
 
-      const additionalTaskControllers = renderTasks($taskList, take(arrayTasks, SHOWING_TASKS_COUNT_BY_BUTTON, this._showedTasksCount), this._binders);
+      const additionalTaskControllers = renderTasks($taskList, take(tasks, SHOWING_TASKS_COUNT_BY_BUTTON, this._showedTasksCount), this._binders);
       this._showedTaskControllers = [...this._showedTaskControllers, ...additionalTaskControllers];
       this._showedTasksCount = this._showedTasksCount + SHOWING_TASKS_COUNT_BY_BUTTON;
 
-      if (this._showedTasksCount >= arrayTasks.length) {
+      if (this._showedTasksCount >= tasks.length) {
         removeComponent(this._loadMoreButtonComponent);
       }
     });
   }
 
   _onSortTypeChange(sortType) {
+    const tasks = this._taskModel.getTasks();
     let sortedTasks = [];
 
     switch (sortType) {
       case SortType.DATE_UP: {
-        sortedTasks = sortPurely(this._tasks, sortByDateInAscendingOrder);
+        sortedTasks = sortPurely(tasks, sortByDateInAscendingOrder);
         break;
       }
       case SortType.DATE_DOWN: {
-        sortedTasks = sortPurely(this._tasks, sortByDateInDescendingOrder);
+        sortedTasks = sortPurely(tasks, sortByDateInDescendingOrder);
         break;
       }
       case SortType.DEFAULT:
       default: {
-        sortedTasks = this._tasks;
+        sortedTasks = tasks;
         break;
       }
     }
