@@ -1,7 +1,10 @@
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
+import 'flatpickr/dist/themes/light.css';
 import AbstractSmartComponent from './abstract-smart-component';
 
 import { Colors, Days } from '../const';
-import { formatTime, formatDate } from '../utils/common';
+import { formatTime, formatDate, isRepeating } from '../utils/common';
 
 const getColorsTemplate = (colors, currentColor) => {
   return colors
@@ -176,9 +179,11 @@ export default class InEditTask extends AbstractSmartComponent {
     super();
     this._task = task;
     this._isDateShowing = Boolean(task.dueDate);
-    this._isRepeatingTask = Object.values(task.repeatingDays).some(Boolean);
+    this._isRepeatingTask = isRepeating(task.repeatingDays);
     this._activeRepeatingDays = { ...task.repeatingDays };
+    this._flatpickr = null;
 
+    this._applyFlatpickr();
     this._subscribeOnEvents();
   }
 
@@ -198,6 +203,39 @@ export default class InEditTask extends AbstractSmartComponent {
 
   recoveryListeners() {
     this._subscribeOnEvents();
+  }
+
+  rerender() {
+    super.rerender();
+
+    this._applyFlatpickr();
+  }
+
+  reset() {
+    const task = this._task;
+
+    this._isDateShowing = Boolean(task.dueDate);
+    this._isRepeatingTask = isRepeating(task.repeatingDays);
+    this._activeRepeatingDays = { ...task.repeatingDays };
+
+    this.rerender();
+  }
+
+  _applyFlatpickr() {
+    if (this._flatpickr) {
+      this._flatpickr.destroy();
+      this._flatpickr = null;
+    }
+
+    if (this._isDateShowing) {
+      const dateElement = this.getElement().querySelector(`.card__date`);
+      this._flatpickr = flatpickr(dateElement, {
+        dateFormat: `d F y H:i`,
+        enableTime: true,
+        allowInput: true,
+        defaultDate: this._task.dueDate,
+      });
+    }
   }
 
   _subscribeOnEvents() {
