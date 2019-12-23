@@ -4,7 +4,7 @@ import 'flatpickr/dist/themes/light.css';
 import AbstractSmartComponent from './abstract-smart-component';
 
 import { Colors, Days } from '../const';
-import { formatTime, formatDate, isRepeating } from '../utils/common';
+import { formatTime, formatDate, isRepeating, isOverdueDate } from '../utils/common';
 
 const getColorsTemplate = (colors, currentColor) => {
   return colors
@@ -82,7 +82,9 @@ const getTaskEditTemplate = (task, options = {}) => {
   const colorsTemplate = getColorsTemplate(Colors, color);
   const repeatingDaysTemplate = getRepeatingDaysTemplate(Days, activeRepeatingDays);
 
-  const isExpired = dueDate instanceof Date && dueDate < Date.now();
+  const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
+  const isBlockSaveButton = (isDateShowing && isRepeatingTask) ||
+    (isRepeatingTask && !isRepeating(activeRepeatingDays));
 
   const date = isDateShowing ? formatDate(dueDate) : ``;
   const time = isDateShowing ? formatTime(dueDate) : ``;
@@ -165,7 +167,7 @@ const getTaskEditTemplate = (task, options = {}) => {
             </div>
 
             <div class="card__status-btns">
-              <button class="card__save" type="submit">save</button>
+              <button class="card__save" type="submit" ${isBlockSaveButton ? `disabled` : ``}>save</button>
               <button class="card__delete" type="button">delete</button>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import AbstractComponent from './abstract-component';
 
-import { formatTime, formatDate, isRepeating } from '../utils/common';
+import { formatTime, formatDate, isRepeating, isOverdueDate } from '../utils/common';
 
 const getHashtagsTemplate = (tags) => {
   return tags.map((tag) => {
@@ -28,7 +28,7 @@ const createButtonTemplate = (name, isActive) => {
 const getTaskTemplate = (task) => {
   const { description, tags, dueDate, color, repeatingDays } = task;
 
-  const isExpired = dueDate instanceof Date && dueDate < Date.now();
+  const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
   const isDateShowing = Boolean(dueDate);
 
   const date = isDateShowing ? formatDate(dueDate) : ``;
