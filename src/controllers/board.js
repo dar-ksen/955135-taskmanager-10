@@ -109,7 +109,7 @@ export default class BoardController {
   }
 
   _onSortTypeChange(sortType) {
-    const tasks = this._taskModel.getTasks();
+    const tasks = this._tasksModel.getTasks();
     let sortedTasks = [];
 
     switch (sortType) {
