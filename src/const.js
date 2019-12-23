@@ -2,4 +2,14 @@ const Colors = [`black`, `yellow`, `blue`, `green`, `pink`];
 
 const Days = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
-export { Colors, Days };
+const FilterType = {
+  ALL: `all`,
+  ARCHIVE: `archive`,
+  FAVORITES: `favorites`,
+  OVERDUE: `overdue`,
+  REPEATING: `repeating`,
+  TAGS: `tags`,
+  TODAY: `today`,
+};
+
+export { Colors, Days, FilterType };
