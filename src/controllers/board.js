@@ -130,7 +130,7 @@ export default class BoardController {
         const destroyedTask = this._showedTaskControllers.pop();
         destroyedTask.destroy();
 
-        this._showedTaskControllers = [...taskController, this._showedTaskControllers];
+        this._showedTaskControllers = [taskController, ...this._showedTaskControllers];
         this._showedTasksCount = this._showedTaskControllers.length;
       }
     } else if (replacementTask === null) {

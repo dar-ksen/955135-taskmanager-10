@@ -12,7 +12,15 @@ import { renderComponent } from './utils/render';
 const $siteMain = document.querySelector(`.js-main`);
 const $siteMainControl = $siteMain.querySelector(`.js-main__control`);
 
-renderComponent($siteMainControl, new MenuComponent());
+const menuComponent = new MenuComponent();
+
+menuComponent.getElement().querySelector(`.control__label--new-task`)
+  .addEventListener(`click`, () => {
+    boardController.createTask();
+  });
+
+
+renderComponent($siteMainControl, menuComponent);
 
 const tasksModel = new TasksModel();
 tasksModel.setTasks(tasks);
