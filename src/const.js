@@ -1,6 +1,20 @@
-const Colors = [`black`, `yellow`, `blue`, `green`, `pink`];
+const COLOR = {
+  BLACK: `black`,
+  YELLOW: `yellow`,
+  BLUE: `blue`,
+  GREEN: `green`,
+  PINK: `pink`
+};
 
-const Days = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
+const COLORS = [
+  COLOR.BLACK,
+  COLOR.YELLOW,
+  COLOR.BLUE,
+  COLOR.GREEN,
+  COLOR.PINK
+];
+
+const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
 const FilterType = {
   ALL: `all`,
@@ -12,4 +26,9 @@ const FilterType = {
   TODAY: `today`,
 };
 
-export { Colors, Days, FilterType };
+export {
+  COLOR,
+  COLORS,
+  DAYS,
+  FilterType
+};
