@@ -107,7 +107,7 @@ class TaskController {
   }
 
   destroy() {
-    removeComponent(this.__InEditTaskComponent);
+    removeComponent(this._InEditTaskComponent);
     removeComponent(this._taskComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
