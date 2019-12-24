@@ -86,13 +86,13 @@ const getHashtagsTemplate = (tags) => {
 };
 
 const getTaskEditTemplate = (task, options = {}) => {
-  const { tags, dueDate, color } = task;
-  const { isDateShowing, isRepeatingTask, activeRepeatingDays, currentDescription } = options;
+  const { tags, dueDate } = task;
+  const { isDateShowing, isRepeatingTask, activeRepeatingDays, currentDescription, currentColor } = options;
 
   const description = he.encode(currentDescription);
 
   const hashtagsTemplate = getHashtagsTemplate(tags);
-  const colorsTemplate = getColorsTemplate(COLORS, color);
+  const colorsTemplate = getColorsTemplate(COLORS, currentColor);
   const repeatingDaysTemplate = getRepeatingDaysTemplate(DAYS, activeRepeatingDays);
 
   const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
@@ -107,7 +107,7 @@ const getTaskEditTemplate = (task, options = {}) => {
   const deadlineClass = isExpired ? `card--deadline` : ``;
 
   return (
-    `<article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
+    `<article class="card card--edit card--${currentColor} ${repeatClass} ${deadlineClass}">
       <form class="card__form js-card__form" method="get">
         <div class="card__inner">
           <div class="card__color-bar">
@@ -172,7 +172,7 @@ const getTaskEditTemplate = (task, options = {}) => {
                 </div>
               </div>
 
-              <div class="card__colors-inner">
+              <div class="card__colors-inner js-card__colors-inner">
                 <h3 class="card__colors-title">Color</h3>
                 <div class="card__colors-wrap">
                   ${colorsTemplate}
@@ -219,6 +219,7 @@ export default class InEditTask extends AbstractSmartComponent {
     this._isRepeatingTask = isRepeating(task.repeatingDays);
     this._activeRepeatingDays = { ...task.repeatingDays };
     this._currentDescription = task.description;
+    this._currentColor = task.color;
     this._flatpickr = null;
     this._submitHandler = null;
     this._deleteButtonClickHandler = null;
@@ -233,6 +234,7 @@ export default class InEditTask extends AbstractSmartComponent {
       isRepeatingTask: this._isRepeatingTask,
       activeRepeatingDays: this._activeRepeatingDays,
       currentDescription: this._currentDescription,
+      currentColor: this._currentColor,
     };
     return getTaskEditTemplate(this._task, options);
   }
@@ -312,6 +314,7 @@ export default class InEditTask extends AbstractSmartComponent {
     const $date = this.getElement().querySelector(`.js-card__date-deadline-toggle`);
     const $repeat = this.getElement().querySelector(`.js-card__repeat-toggle`);
     const $repeatDay = this.getElement().querySelector(`.js-card__repeat-days`);
+    const $color = this.getElement().querySelector(`.js-card__colors-inner`);
 
     $text.addEventListener(`input`, (evt) => {
       this._currentDescription = evt.target.value;
@@ -336,6 +339,13 @@ export default class InEditTask extends AbstractSmartComponent {
         this.rerender();
       });
     }
+
+    $color.addEventListener(`change`, () => {
+      this._currentColor = $color
+        .querySelector(`input:checked`)
+        .value;
+      this.rerender();
+    });
   }
 }
 
