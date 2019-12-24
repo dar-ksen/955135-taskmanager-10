@@ -29,6 +29,20 @@ export default class Tasks {
     this._filterChangeHandlers.forEach((handler) => handler());
   }
 
+  removeTask(id) {
+    const index = this._tasks.findIndex((task) => task.id === id);
+
+    if (index === -1) {
+      return false;
+    }
+
+    this._tasks = [...this._tasks.slice(0, index), ...this._tasks.slice(index + 1)];
+
+    this._callHandlers(this._dataChangeHandlers);
+
+    return true;
+  }
+
   updateTask(id, updatedTask) {
     const index = this._tasks.findIndex((task) => task.id === id);
 
@@ -38,9 +52,14 @@ export default class Tasks {
 
     this._tasks = replace(this._tasks, updatedTask, index);
 
-    this._dataChangeHandlers.forEach((handler) => handler());
+    this._callHandlers(this._dataChangeHandlers);
 
     return true;
+  }
+
+  addTask(task) {
+    this._tasks = [task, ...this._tasks];
+    this._callHandlers(this._dataChangeHandlers);
   }
 
   setFilterChangeHandler(handler) {
@@ -51,4 +70,7 @@ export default class Tasks {
     this._dataChangeHandlers.push(handler);
   }
 
+  _callHandlers(handlers) {
+    handlers.forEach((handler) => handler());
+  }
 }
