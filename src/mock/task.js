@@ -12,17 +12,17 @@ const DefaultRepeatingDays = {
 
 const tasks = [
   {
-    id: String(new Date() + Math.random()),
+    id: `0001`,
     description: `Изучить теорию`,
     dueDate: new Date(Date.UTC(2019, 11, 10, 3, 1, 0)),
-    repeatingDays: { 'mo': false, 'tu': true, 'we': false, 'th': true, 'fr': false, 'sa': false, 'su': false },
+    repeatingDays: DefaultRepeatingDays,
     tags: [`keks`],
     color: `yellow`,
     isFavored: true,
     isArchived: false
   },
   {
-    id: String(new Date() + Math.random()),
+    id: `0002`,
     description: `Сделать домашку`,
     dueDate: new Date(Date.UTC(2019, 11, 1, 3, 1, 0)),
     repeatingDays: DefaultRepeatingDays,
@@ -32,7 +32,7 @@ const tasks = [
     isArchived: false
   },
   {
-    id: String(new Date() + Math.random()),
+    id: `0003`,
     description: `Изучить теорию`,
     dueDate: null,
     repeatingDays: { 'mo': false, 'tu': true, 'we': false, 'th': true, 'fr': false, 'sa': false, 'su': false },
@@ -42,17 +42,17 @@ const tasks = [
     isArchived: false
   },
   {
-    id: String(new Date() + Math.random()),
+    id: `0004`,
     description: `Изучить теорию`,
     dueDate: new Date(Date.UTC(2020, 2, 3, 5, 16, 15)),
-    repeatingDays: { 'mo': false, 'tu': true, 'we': false, 'th': true, 'fr': false, 'sa': false, 'su': false },
+    repeatingDays: DefaultRepeatingDays,
     tags: [`homework`, `theory`, `practice`, `intensive`, `keks`],
-    color: `green`,
+    color: `black`,
     isFavored: true,
     isArchived: false
   },
   {
-    id: String(new Date() + Math.random()),
+    id: `0005`,
     description: `Пройти интенсив на соточку`,
     dueDate: new Date(Date.UTC(2019, 11, 5, 5, 45, 15)),
     repeatingDays: DefaultRepeatingDays,
@@ -62,7 +62,7 @@ const tasks = [
     isArchived: false
   },
   {
-    id: String(new Date() + Math.random()),
+    id: `0006`,
     description: `Пройти интенсив на соточку`,
     dueDate: new Date(Date.UTC(2020, 1, 5, 5, 45, 15)),
     repeatingDays: DefaultRepeatingDays,
@@ -72,7 +72,7 @@ const tasks = [
     isArchived: true
   },
   {
-    id: String(new Date() + Math.random()),
+    id: `0007`,
     description: `Сделать домашку`,
     dueDate: null,
     repeatingDays: DefaultRepeatingDays,
@@ -82,7 +82,7 @@ const tasks = [
     isArchived: false
   },
   {
-    id: String(new Date() + Math.random()),
+    id: `0008`,
     description: `Изучить теорию`,
     dueDate: null,
     repeatingDays: { 'mo': true, 'tu': true, 'we': false, 'th': false, 'fr': false, 'sa': false, 'su': false },
@@ -92,7 +92,7 @@ const tasks = [
     isArchived: false
   },
   {
-    id: String(new Date() + Math.random()),
+    id: `0009`,
     description: `Сделать домашку`,
     dueDate: null,
     repeatingDays: { 'mo': true, 'tu': true, 'we': true, 'th': false, 'fr': false, 'sa': false, 'su': false },
@@ -102,17 +102,17 @@ const tasks = [
     isArchived: false
   },
   {
-    id: String(new Date() + Math.random()),
+    id: `0010`,
     description: `Сделать домашку`,
     dueDate: new Date(Date.UTC(2020, 0, 1, 5, 45, 15)),
-    repeatingDays: { 'mo': true, 'tu': true, 'we': false, 'th': true, 'fr': false, 'sa': false, 'su': false },
+    repeatingDays: DefaultRepeatingDays,
     tags: [`homework`, `keks`],
     color: `green`,
     isFavored: true,
     isArchived: false
   },
   {
-    id: String(new Date() + Math.random()),
+    id: `0011`,
     description: `Пройти интенсив на соточку`,
     dueDate: new Date(Date.UTC(2020, 2, 1, 5, 16, 15)),
     repeatingDays: DefaultRepeatingDays,
@@ -122,17 +122,17 @@ const tasks = [
     isArchived: true
   },
   {
-    id: String(new Date() + Math.random()),
+    id: `0012`,
     description: `Сделать домашку`,
     dueDate: null,
     repeatingDays: DefaultRepeatingDays,
-    tags: [`intensive`, `keks`],
+    tags: [],
     color: `black`,
     isFavored: true,
     isArchived: false
   },
   {
-    id: String(new Date() + Math.random()),
+    id: `0013`,
     description: `Изучить теорию`,
     dueDate: null,
     repeatingDays: { 'mo': true, 'tu': true, 'we': false, 'th': false, 'fr': false, 'sa': false, 'su': false },
@@ -142,14 +142,14 @@ const tasks = [
     isArchived: true
   },
   {
-    id: String(new Date() + Math.random()),
-    description: `Пройти интенсив на соточку`,
-    dueDate: new Date(Date.UTC(2019, 10, 5, 5, 45, 15)),
+    id: `0014`,
+    description: `Сделать сегодня`,
+    dueDate: new Date(),
     repeatingDays: DefaultRepeatingDays,
-    tags: [`homework`, `intensive`, `keks`],
+    tags: [],
     color: `blue`,
     isFavored: false,
-    isArchived: true
+    isArchived: false
   },
 ];
 
