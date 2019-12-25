@@ -66,7 +66,7 @@ class TaskController {
     this._inEditTaskComponent.setSubmitHandler((evt) => {
       evt.preventDefault();
       const data = this._inEditTaskComponent.getData();
-      this._onDataChange(this, task, data);
+      this._onDataChange(this, task, { ...task, ...data });
       this._stopTaskEditing();
     });
     this._inEditTaskComponent.setDeleteButtonClickHandler(() => this._onDataChange(this, task, null));
