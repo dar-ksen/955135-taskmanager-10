@@ -6,7 +6,7 @@ import NoTasksMessageComponent from "../components/no-tasks-message";
 import TaskController, { Mode as TaskControllerMode, EMPTY_TASK } from './task';
 
 import { renderComponent, removeComponent } from "../utils/render";
-import { take } from '../utils/common';
+import { take, sortPurely } from '../utils/common';
 
 const SHOWING_TASKS_COUNT_ON_START = 8;
 const SHOWING_TASKS_COUNT_BY_BUTTON = 8;
@@ -14,9 +14,6 @@ const SHOWING_TASKS_COUNT_BY_BUTTON = 8;
 const sortByDateInAscendingOrder = (a, b) => a.dueDate - b.dueDate;
 
 const sortByDateInDescendingOrder = (a, b) => b.dueDate - a.dueDate;
-
-const sortPurely = (collection, iterate) => collection.slice().sort(iterate);
-
 
 const renderTasks = ($taskList, tasks, { onDataChange, onViewChange }) => {
   return tasks.map((task) => {
