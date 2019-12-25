@@ -2,6 +2,7 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import 'flatpickr/dist/themes/light.css';
 import he from 'he';
+import debounce from 'lodash/debounce';
 import AbstractSmartComponent from './abstract-smart-component';
 
 import { COLORS, DAYS } from '../const';
@@ -316,12 +317,12 @@ export default class InEditTask extends AbstractSmartComponent {
     const $repeatDay = this.getElement().querySelector(`.js-card__repeat-days`);
     const $color = this.getElement().querySelector(`.js-card__colors-inner`);
 
-    $text.addEventListener(`input`, (evt) => {
+    $text.addEventListener(`input`, debounce((evt) => {
       this._currentDescription = evt.target.value;
 
       const saveButton = this.getElement().querySelector(`.js-card__save`);
       saveButton.disabled = !hasValidDescriptionLength(this._currentDescription);
-    });
+    }, 500));
 
     $date.addEventListener(`click`, () => {
       this._isDateShowing = !this._isDateShowing;
@@ -340,12 +341,12 @@ export default class InEditTask extends AbstractSmartComponent {
       });
     }
 
-    $color.addEventListener(`change`, () => {
+    $color.addEventListener(`change`, debounce(() => {
       this._currentColor = $color
         .querySelector(`input:checked`)
         .value;
       this.rerender();
-    });
+    }, 500));
   }
 }
 
