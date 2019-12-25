@@ -1,5 +1,5 @@
-import { getTasksByFilter } from '../utils/filter.js';
-import { FilterType } from '../const.js';
+import { TaskFiltrationService } from '../services/task-filtration';
+import { FilterType } from '../const';
 import { replace } from '../utils/common';
 
 class TaskModel {
@@ -13,7 +13,7 @@ class TaskModel {
   }
 
   getTasks() {
-    return getTasksByFilter(this._tasks, this._activeFilterType);
+    return TaskFiltrationService.getTasksByFilter(this._tasks, this._activeFilterType);
   }
 
   getTasksAll() {
