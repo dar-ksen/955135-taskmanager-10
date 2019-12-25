@@ -2,7 +2,7 @@ import { getTasksByFilter } from '../utils/filter.js';
 import { FilterType } from '../const.js';
 import { replace } from '../utils/common';
 
-export default class Tasks {
+class TaskModel {
   constructor() {
     this._tasks = [];
 
@@ -74,3 +74,5 @@ export default class Tasks {
     handlers.forEach((handler) => handler());
   }
 }
+
+export { TaskModel as default };

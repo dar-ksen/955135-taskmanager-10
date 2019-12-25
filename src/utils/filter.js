@@ -6,7 +6,7 @@ const getArchiveTasks = (tasks) => {
   return tasks.filter((task) => task.isArchived);
 };
 
-const getNotArchiveTasks = (tasks) => {
+const getNotArchivedTasks = (tasks) => {
   return tasks.filter((task) => !task.isArchived);
 };
 
@@ -43,19 +43,19 @@ const getTasksByFilter = (tasks, filterType) => {
 
   switch (filterType) {
     case FilterType.ALL:
-      return getNotArchiveTasks(tasks);
+      return getNotArchivedTasks(tasks);
     case FilterType.ARCHIVE:
       return getArchiveTasks(tasks);
     case FilterType.FAVORITES:
-      return getFavoriteTasks(getNotArchiveTasks(tasks));
+      return getFavoriteTasks(getNotArchivedTasks(tasks));
     case FilterType.OVERDUE:
-      return getOverdueTasks(getNotArchiveTasks(tasks), nowDate);
+      return getOverdueTasks(getNotArchivedTasks(tasks), nowDate);
     case FilterType.REPEATING:
-      return getRepeatingTasks(getNotArchiveTasks(tasks));
+      return getRepeatingTasks(getNotArchivedTasks(tasks));
     case FilterType.TAGS:
-      return getTasksWithHashtags(getNotArchiveTasks(tasks));
+      return getTasksWithHashtags(getNotArchivedTasks(tasks));
     case FilterType.TODAY:
-      return getTasksInOneDay(getNotArchiveTasks(tasks), nowDate);
+      return getTasksInOneDay(getNotArchivedTasks(tasks), nowDate);
   }
 
   return tasks;
@@ -63,7 +63,7 @@ const getTasksByFilter = (tasks, filterType) => {
 
 export {
   getArchiveTasks,
-  getNotArchiveTasks,
+  getNotArchivedTasks,
   getFavoriteTasks,
   getOverdueTasks,
   getRepeatingTasks,

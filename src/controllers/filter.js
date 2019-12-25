@@ -4,9 +4,9 @@ import { renderComponent, replaceComponent } from '../utils/render.js';
 import { getTasksByFilter } from '../utils/filter.js';
 
 export default class FilterController {
-  constructor(container, tasksModel) {
+  constructor(container, taskModel) {
     this._container = container;
-    this._tasksModel = tasksModel;
+    this._taskModel = taskModel;
 
     this._activeFilterType = FilterType.ALL;
     this._filterComponent = null;
@@ -14,12 +14,12 @@ export default class FilterController {
     this._onDataChange = this._onDataChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
 
-    this._tasksModel.setDataChangeHandler(this._onDataChange);
+    this._taskModel.setDataChangeHandler(this._onDataChange);
   }
 
   render() {
     const container = this._container;
-    const allTasks = this._tasksModel.getTasksAll();
+    const allTasks = this._taskModel.getTasksAll();
 
     const filters = Object.values(FilterType).map((filterType) => {
       return {
@@ -42,7 +42,7 @@ export default class FilterController {
   }
 
   _onFilterChange(filterType) {
-    this._tasksModel.setFilter(filterType);
+    this._taskModel.setFilter(filterType);
     this._activeFilterType = filterType;
   }
 

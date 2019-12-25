@@ -10,7 +10,7 @@ const Mode = {
   EDIT: `edit`,
 };
 
-const EmptyTask = {
+const EMPTY_TASK = {
   description: ``,
   dueDate: null,
   repeatingDays: {
@@ -37,18 +37,18 @@ class TaskController {
     this._mode = Mode.DEFAULT;
 
     this._taskComponent = null;
-    this._InEditTaskComponent = null;
+    this._inEditTaskComponent = null;
 
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
   }
 
   render(task, mode) {
     const oldTaskComponent = this._taskComponent;
-    const oldInEditTaskComponent = this._InEditTaskComponent;
+    const oldInEditTaskComponent = this._inEditTaskComponent;
     this._mode = mode;
 
     this._taskComponent = new TaskComponent(task);
-    this._InEditTaskComponent = new InEditTaskComponent(task);
+    this._inEditTaskComponent = new InEditTaskComponent(task);
 
     this._taskComponent.setEditButtonClickHandler(() => {
       this._startTaskEditing();
@@ -63,19 +63,19 @@ class TaskController {
       this._onDataChange(this, task, { ...task, isArchived: !task.isArchived });
     });
 
-    this._InEditTaskComponent.setSubmitHandler((evt) => {
+    this._inEditTaskComponent.setSubmitHandler((evt) => {
       evt.preventDefault();
-      const data = this._InEditTaskComponent.getData();
+      const data = this._inEditTaskComponent.getData();
       this._onDataChange(this, task, data);
       this._stopTaskEditing();
     });
-    this._InEditTaskComponent.setDeleteButtonClickHandler(() => this._onDataChange(this, task, null));
+    this._inEditTaskComponent.setDeleteButtonClickHandler(() => this._onDataChange(this, task, null));
 
     switch (mode) {
       case Mode.DEFAULT: {
         if (oldInEditTaskComponent && oldTaskComponent) {
           replaceComponent(this._taskComponent, oldTaskComponent);
-          replaceComponent(this._InEditTaskComponent, oldInEditTaskComponent);
+          replaceComponent(this._inEditTaskComponent, oldInEditTaskComponent);
           this._stopTaskEditing();
         } else {
           renderComponent(this._container, this._taskComponent);
@@ -88,13 +88,13 @@ class TaskController {
           removeComponent(oldInEditTaskComponent);
         }
         document.addEventListener(`keydown`, this._onEscKeyDown);
-        renderComponent(this._container, this._InEditTaskComponent, RenderPosition.AFTER_BEGIN);
+        renderComponent(this._container, this._inEditTaskComponent, RenderPosition.AFTER_BEGIN);
       }
     }
 
     if (oldInEditTaskComponent && oldTaskComponent) {
       replaceComponent(this._taskComponent, oldTaskComponent);
-      replaceComponent(this._InEditTaskComponent, oldInEditTaskComponent);
+      replaceComponent(this._inEditTaskComponent, oldInEditTaskComponent);
     } else {
       renderComponent(this._container, this._taskComponent);
     }
@@ -107,7 +107,7 @@ class TaskController {
   }
 
   destroy() {
-    removeComponent(this._InEditTaskComponent);
+    removeComponent(this._inEditTaskComponent);
     removeComponent(this._taskComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
@@ -115,12 +115,12 @@ class TaskController {
   _startTaskEditing() {
     this._onViewChange();
 
-    replaceComponent(this._InEditTaskComponent, this._taskComponent);
+    replaceComponent(this._inEditTaskComponent, this._taskComponent);
     this._mode = Mode.EDIT;
   }
 
   _stopTaskEditing() {
-    replaceComponent(this._taskComponent, this._InEditTaskComponent);
+    replaceComponent(this._taskComponent, this._inEditTaskComponent);
     this._mode = Mode.DEFAULT;
   }
 
@@ -129,7 +129,7 @@ class TaskController {
 
     if (isEscKey) {
       if (this._mode === Mode.ADDING) {
-        this._onDataChange(this, EmptyTask, null);
+        this._onDataChange(this, EMPTY_TASK, null);
       }
       this._stopTaskEditing();
     }
@@ -138,6 +138,6 @@ class TaskController {
 
 export {
   Mode,
-  EmptyTask,
+  EMPTY_TASK,
   TaskController as default,
 };

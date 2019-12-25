@@ -1,6 +1,6 @@
 import MenuComponent from './components/menu';
 
-import TasksModel from './models/tasks';
+import TaskModel from './models/task-model';
 
 import BoardComponent from './components/board';
 import BoardController from './controllers/board';
@@ -22,16 +22,16 @@ menuComponent.getElement().querySelector(`.control__label--new-task`)
 
 renderComponent($siteMainControl, menuComponent);
 
-const tasksModel = new TasksModel();
-tasksModel.setTasks(tasks);
+const taskModel = new TaskModel();
+taskModel.setTasks(tasks);
 
-const filterController = new FilterController($siteMain, tasksModel);
+const filterController = new FilterController($siteMain, taskModel);
 filterController.render();
 
 const boardComponent = new BoardComponent();
 renderComponent($siteMain, boardComponent);
 
-const boardController = new BoardController(boardComponent, tasksModel);
+const boardController = new BoardController(boardComponent, taskModel);
 
 boardController.render(tasks);
 

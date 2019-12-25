@@ -10,7 +10,7 @@ import { formatTime, formatDate, isRepeating, isOverdueDate } from '../utils/com
 const MIN_DESCRIPTION_LENGTH = 1;
 const MAX_DESCRIPTION_LENGTH = 140;
 
-const isAllowableDescriptionLength = (description) => {
+const hasValidDescriptionLength = (description) => {
   const length = description.length;
 
   return length >= MIN_DESCRIPTION_LENGTH &&
@@ -96,9 +96,9 @@ const getTaskEditTemplate = (task, options = {}) => {
   const repeatingDaysTemplate = getRepeatingDaysTemplate(DAYS, activeRepeatingDays);
 
   const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
-  const isBlockSaveButton = (isDateShowing && isRepeatingTask) ||
+  const isSaveButtonDisabled = (isDateShowing && isRepeatingTask) ||
     (isRepeatingTask && !isRepeating(activeRepeatingDays)) ||
-    !isAllowableDescriptionLength(description);
+    !hasValidDescriptionLength(description);
 
   const date = isDateShowing ? formatDate(dueDate) : ``;
   const time = isDateShowing ? formatTime(dueDate) : ``;
@@ -181,7 +181,7 @@ const getTaskEditTemplate = (task, options = {}) => {
             </div>
 
             <div class="card__status-btns">
-              <button class="card__save js-card__save" type="submit" ${isBlockSaveButton ? `disabled` : ``}>save</button>
+              <button class="card__save js-card__save" type="submit" ${isSaveButtonDisabled ? `disabled` : ``}>save</button>
               <button class="card__delete js-card__delete" type="button">delete</button>
             </div>
           </div>
@@ -191,8 +191,8 @@ const getTaskEditTemplate = (task, options = {}) => {
 };
 
 const parseFormData = (formData) => {
-  const repeatingDays = DAYS.reduce((acc, day) => {
-    acc[day] = false;
+  const repeatingDays = DAYS.reduce((acc, dayName) => {
+    acc[dayName] = false;
     return acc;
   }, {});
 
@@ -203,8 +203,8 @@ const parseFormData = (formData) => {
     color: formData.get(`color`),
     tags: formData.getAll(`hashtag`),
     dueDate: date ? new Date(date) : null,
-    repeatingDays: formData.getAll(`repeat`).reduce((acc, it) => {
-      acc[it] = true;
+    repeatingDays: formData.getAll(`repeat`).reduce((acc, dayName) => {
+      acc[dayName] = true;
       return acc;
     }, repeatingDays),
   };
@@ -320,7 +320,7 @@ export default class InEditTask extends AbstractSmartComponent {
       this._currentDescription = evt.target.value;
 
       const saveButton = this.getElement().querySelector(`.js-card__save`);
-      saveButton.disabled = !isAllowableDescriptionLength(this._currentDescription);
+      saveButton.disabled = !hasValidDescriptionLength(this._currentDescription);
     });
 
     $date.addEventListener(`click`, () => {
