@@ -1,4 +1,4 @@
-import { isRepeating, isOneDay, isOverdueDate } from './common.js';
+import { isRepeating, isOneDay, isOverdueDate } from '../utils/common';
 import { FilterType } from '../const.js';
 
 
@@ -61,7 +61,7 @@ const getTasksByFilter = (tasks, filterType) => {
   return tasks;
 };
 
-export {
+const TaskFiltrationService = {
   getArchiveTasks,
   getNotArchivedTasks,
   getFavoriteTasks,
@@ -71,3 +71,5 @@ export {
   getTasksInOneDay,
   getTasksByFilter
 };
+
+export { TaskFiltrationService };
