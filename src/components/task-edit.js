@@ -300,12 +300,15 @@ export default class InEditTask extends AbstractSmartComponent {
     }
 
     if (this._isDateShowing) {
+      const defaultDate = this._task.dueDate
+        ? this._task.dueDate
+        : new Date();
       const dateElement = this.getElement().querySelector(`.js-card__date`);
       this._flatpickr = flatpickr(dateElement, {
         dateFormat: `d F y H:i`,
         enableTime: true,
         allowInput: true,
-        defaultDate: this._task.dueDate,
+        defaultDate,
       });
     }
   }
