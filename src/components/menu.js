@@ -43,6 +43,14 @@ class Menu extends AbstractComponent {
   getTemplate() {
     return getMenuTemplate();
   }
+
+  setActiveItem(menuItem) {
+    const item = this.getElement().querySelector(`#${menuItem}`);
+
+    if (item) {
+      item.checked = true;
+    }
+  }
 }
 
 export {
