@@ -1,4 +1,5 @@
 import MenuComponent from './components/menu';
+import StatisticsComponent from './components/statistics';
 
 import TaskModel from './models/task-model';
 
@@ -13,6 +14,7 @@ const $siteMain = document.querySelector(`.js-main`);
 const $siteMainControl = $siteMain.querySelector(`.js-main__control`);
 
 const menuComponent = new MenuComponent();
+const statisticsComponent = new StatisticsComponent();
 
 menuComponent.getElement().querySelector(`.control__label--new-task`)
   .addEventListener(`click`, () => {
@@ -30,6 +32,7 @@ filterController.render();
 
 const boardComponent = new BoardComponent();
 renderComponent($siteMain, boardComponent);
+renderComponent($siteMain, statisticsComponent);
 
 const boardController = new BoardController(boardComponent, taskModel);
 
