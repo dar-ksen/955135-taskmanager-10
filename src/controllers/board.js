@@ -52,6 +52,14 @@ export default class BoardController {
     };
   }
 
+  hide() {
+    this._container.hide();
+  }
+
+  show() {
+    this._container.show();
+  }
+
   render() {
     const tasks = this._taskModel.getTasks();
 
