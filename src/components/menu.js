@@ -1,5 +1,11 @@
 import AbstractComponent from './abstract-component';
 
+const MenuItem = {
+  NEW_TASK: `control__new-task`,
+  STATISTICS: `control__statistic`,
+  TASKS: `control__task`,
+};
+
 const getMenuTemplate = () => {
   return (`
   <section class="control__btn-wrap">
@@ -33,8 +39,13 @@ const getMenuTemplate = () => {
   `);
 };
 
-export default class Menu extends AbstractComponent {
+class Menu extends AbstractComponent {
   getTemplate() {
     return getMenuTemplate();
   }
 }
+
+export {
+  Menu as default,
+  MenuItem
+};
