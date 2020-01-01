@@ -278,7 +278,7 @@ const getStatisticsTemplate = ({ tasks, dateFrom, dateTo }) => {
 
             <div class="statistic-input-wrap">
               <input
-                class="statistic__period-input"
+                class="statistic__period-input js-statistic__period-input "
                 type="text"
                 placeholder="${placeholder}"
               />
@@ -290,16 +290,16 @@ const getStatisticsTemplate = ({ tasks, dateFrom, dateTo }) => {
             </p>
           </div>
           <div class="statistic__line-graphic">
-            <canvas class="statistic__days" width="550" height="150"></canvas>
+            <canvas class="statistic__days js-statistic__days" width="550" height="150"></canvas>
           </div>
         </div>
 
         <div class="statistic__circle">
           <div class="statistic__tags-wrap">
-            <canvas class="statistic__tags" width="400" height="300"></canvas>
+            <canvas class="statistic__tags js-statistic__tags" width="400" height="300"></canvas>
           </div>
           <div class="statistic__colors-wrap">
-            <canvas class="statistic__colors" width="400" height="300"></canvas>
+            <canvas class="statistic__colors js-statistic__colors" width="400" height="300"></canvas>
           </div>
         </div>
       </section>`
@@ -318,7 +318,7 @@ class Statistics extends AbstractSmartComponent {
     this._tagsChart = null;
     this._colorsChart = null;
 
-    this._applyFlatpickr(this.getElement().querySelector(`.statistic__period-input`));
+    this._applyFlatpickr(this.getElement().querySelector(`.js-statistic__period-input`));
 
     this._renderCharts();
   }
@@ -348,11 +348,11 @@ class Statistics extends AbstractSmartComponent {
   _renderCharts() {
     const element = this.getElement();
 
-    this._applyFlatpickr(this.getElement().querySelector(`.statistic__period-input`));
+    this._applyFlatpickr(this.getElement().querySelector(`.js-statistic__period-input`));
 
-    const daysCtx = element.querySelector(`.statistic__days`);
-    const tagsCtx = element.querySelector(`.statistic__tags`);
-    const colorsCtx = element.querySelector(`.statistic__colors`);
+    const daysCtx = element.querySelector(`.js-statistic__days`);
+    const tagsCtx = element.querySelector(`.js-statistic__tags`);
+    const colorsCtx = element.querySelector(`.js-statistic__colors`);
 
     this._resetCharts();
 
