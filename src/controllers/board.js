@@ -52,6 +52,14 @@ export default class BoardController {
     };
   }
 
+  hide() {
+    this._container.hide();
+  }
+
+  show() {
+    this._container.show();
+  }
+
   render() {
     const tasks = this._taskModel.getTasks();
 
@@ -77,6 +85,8 @@ export default class BoardController {
     if (this._creatingTask) {
       return;
     }
+
+    this._onViewChange();
 
     const $taskList = this._taskListComponent.getElement();
     this._creatingTask = new TaskController($taskList, this._onDataChange, this._onViewChange);
