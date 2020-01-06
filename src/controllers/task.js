@@ -91,13 +91,6 @@ class TaskController {
         renderComponent(this._container, this._inEditTaskComponent, RenderPosition.AFTER_BEGIN);
       }
     }
-
-    if (oldInEditTaskComponent && oldTaskComponent) {
-      replaceComponent(this._taskComponent, oldTaskComponent);
-      replaceComponent(this._inEditTaskComponent, oldInEditTaskComponent);
-    } else {
-      renderComponent(this._container, this._taskComponent);
-    }
   }
 
   setDefaultView() {

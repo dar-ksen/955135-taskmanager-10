@@ -86,6 +86,8 @@ export default class BoardController {
       return;
     }
 
+    this._onViewChange();
+
     const $taskList = this._taskListComponent.getElement();
     this._creatingTask = new TaskController($taskList, this._onDataChange, this._onViewChange);
     this._creatingTask.render(EMPTY_TASK, TaskControllerMode.ADDING);
