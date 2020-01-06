@@ -12,7 +12,7 @@ import 'chart.js/dist/Chart.min.css';
 import 'flatpickr/dist/flatpickr.min.css';
 import 'flatpickr/dist/themes/light.css';
 
-const colorValue = {
+const COLOR_VALUES = {
   [COLOR.BLACK]: `#000000`,
   [COLOR.BLUE]: `#0c5cdd`,
   [COLOR.GREEN]: `#31b55c`,
@@ -20,9 +20,7 @@ const colorValue = {
   [COLOR.YELLOW]: `#ffe125`,
 };
 
-const getUniqItems = (item, index, array) => {
-  return array.indexOf(item) === index;
-};
+const getUniqItems = (item, index, array) => array.indexOf(item) === index;
 
 const getTasksByDateRange = (tasks, dateFrom, dateTo) => {
   return tasks.filter((task) => {
@@ -39,16 +37,14 @@ const createRandomColor = () => {
 };
 
 const createPlaceholder = (dateFrom, dateTo) => {
-  const format = (date) => {
-    return moment(date).format(`DD MMM`);
-  };
+  const format = (date) => moment(date).format(`DD MMM`);
 
   return `${format(dateFrom)} - ${format(dateTo)}`;
 };
 
-const calcUniqCountColor = (tasks, color) => {
-  return tasks.filter((it) => it.color === color).length;
-};
+const calcUniqCountColor = (tasks, color) => tasks
+  .filter((it) => it.color === color)
+  .length;
 
 const calculateBetweenDates = (from, to) => {
   const result = [];
@@ -76,7 +72,7 @@ const renderColorsChart = (colorsCtx, tasks) => {
       labels: colors,
       datasets: [{
         data: colors.map((color) => calcUniqCountColor(tasks, color)),
-        backgroundColor: colors.map((color) => colorValue[color])
+        backgroundColor: colors.map((color) => COLOR_VALUES[color])
       }]
     },
     options: {
@@ -127,11 +123,9 @@ const renderColorsChart = (colorsCtx, tasks) => {
 const renderDaysChart = (daysCtx, tasks, dateFrom, dateTo) => {
   const days = calculateBetweenDates(dateFrom, dateTo);
 
-  const taskCountOnDay = days.map((date) => {
-    return tasks.filter((task) => {
-      return isOneDay(task.dueDate, date);
-    }).length;
-  });
+  const taskCountOnDay = days
+    .map((date) => tasks
+    .filter((task) => isOneDay(task.dueDate, date)).length);
 
   const formattedDates = days.map((it) => moment(it).format(`DD MMM`));
 
@@ -198,10 +192,9 @@ const renderDaysChart = (daysCtx, tasks, dateFrom, dateTo) => {
 };
 
 const renderTagsChart = (tagsCtx, tasks) => {
-  const tagsLabels = tasks.map((task) => task.tags)
-    .reduce((acc, tags) => {
-      return acc.concat(Array.from(tags));
-    }, [])
+  const tagsLabels = tasks
+    .map((task) => task.tags)
+    .reduce((acc, tags) => acc.concat(Array.from(tags)), [])
     .filter(getUniqItems);
 
   return new Chart(tagsCtx, {
