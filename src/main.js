@@ -26,7 +26,7 @@ const dateFrom = (() => {
   d.setDate(d.getDate() - 7);
   return d;
 })();
-const statisticsComponent = new StatisticsComponent({ tasks: taskModel, dateFrom, dateTo });
+const statisticsComponent = new StatisticsComponent({ taskModel, dateFrom, dateTo });
 
 const filterController = new FilterController($siteMain, taskModel);
 filterController.render();
