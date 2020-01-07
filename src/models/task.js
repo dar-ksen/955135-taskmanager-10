@@ -1,4 +1,4 @@
-class Task {
+class TaskModel {
   constructor(data) {
     this.id = data[`id`];
     this.description = data[`description`] || ``;
@@ -24,16 +24,16 @@ class Task {
   }
 
   static parseTask(data) {
-    return new Task(data);
+    return new TaskModel(data);
   }
 
   static parseTasks(data) {
-    return data.map(Task.parseTask);
+    return data.map(TaskModel.parseTask);
   }
 
   static clone(data) {
-    return new Task(data.toRAW());
+    return new TaskModel(data.toRAW());
   }
 }
 
-export { Task as default };
+export { TaskModel as default };

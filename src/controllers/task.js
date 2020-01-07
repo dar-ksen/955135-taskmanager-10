@@ -1,8 +1,8 @@
 import TaskComponent from "../components/task";
 import InEditTaskComponent from "../components/task-edit";
-
+import TaskModel from '../models/task';
 import { renderComponent, replaceComponent, removeComponent, RenderPosition } from "../utils/render";
-import { COLOR } from '../const.js';
+import { COLOR, DAYS } from '../const.js';
 
 const Mode = {
   ADDING: `adding`,
@@ -26,6 +26,28 @@ const EMPTY_TASK = {
   color: COLOR.BLACK,
   isFavored: false,
   isArchived: false,
+};
+
+const parseFormData = (formData) => {
+  const repeatingDays = DAYS.reduce((acc, dayName) => {
+    acc[dayName] = false;
+    return acc;
+  }, {});
+
+  const date = formData.get(`date`);
+
+  return {
+    'description': formData.get(`text`),
+    'dueDate': date ? new Date(date) : null,
+    'tags': formData.getAll(`hashtag`),
+    'repeatingDays': formData.getAll(`repeat`).reduce((acc, dayName) => {
+      acc[dayName] = true;
+      return acc;
+    }, repeatingDays),
+    'color': formData.get(`color`),
+    'is_favorite': false,
+    'is_archived': false
+  };
 };
 
 class TaskController {
@@ -56,19 +78,28 @@ class TaskController {
     });
 
     this._taskComponent.setFavoritesButtonClickHandler(() => {
-      this._onDataChange(this, task, { ...task, isFavored: !task.isFavored });
+      const newTask = TaskModel.clone(task);
+      newTask.isFavored = !newTask.isFavored;
+
+      this._onDataChange(this, task, newTask);
     });
 
     this._taskComponent.setArchiveButtonClickHandler(() => {
-      this._onDataChange(this, task, { ...task, isArchived: !task.isArchived });
+      const newTask = TaskModel.clone(task);
+      newTask.isArchived = !newTask.isArchived;
+
+      this._onDataChange(this, task, newTask);
     });
 
     this._inEditTaskComponent.setSubmitHandler((evt) => {
       evt.preventDefault();
-      const data = this._inEditTaskComponent.getData();
-      this._onDataChange(this, task, { ...task, ...data });
-      this._stopTaskEditing();
+
+      const formData = this._inEditTaskComponent.getData();
+      const data = parseFormData(formData);
+      this._onDataChange(this, task, data);
+      // this._stopTaskEditing();
     });
+
     this._inEditTaskComponent.setDeleteButtonClickHandler(() => this._onDataChange(this, task, null));
 
     switch (mode) {

@@ -1,4 +1,4 @@
-import Task from './models/task';
+import TaskModel from './models/task';
 
 const METHOD = {
   GET: `GET`,
@@ -21,20 +21,34 @@ const API = class {
     this._authorization = authorization;
   }
 
-  getTask() {
+  getTasks() {
     return this._load({ url: `tasks` })
       .then((response) => response.json())
-      .then(Task.parseTasks);
+      .then(TaskModel.parseTasks);
   }
 
+  /*
+  TODO:
   createTask(task) {
   }
+  */
 
   updateTask(id, data) {
+    return this._load({
+      url: `task/${id}`,
+      method: METHOD.PUT,
+      body: JSON.stringify(data.toRAW()),
+      headers: new Headers({ 'Content-Type': `application/json` })
+    })
+      .then((response) => response.json())
+      .then(TaskModel.parseTask);
   }
 
+  /*
+   TODO:
   deleteTask(id) {
   }
+  */
 
   _load({ url, method = METHOD.GET, body = null, headers = new Headers() }) {
     headers.append(`Authorization`, this._authorization);
