@@ -1,4 +1,4 @@
-import TaskModel from './models/task-model';
+import Task from './models/task';
 
 const METHOD = {
   GET: `GET`,
@@ -24,7 +24,7 @@ const API = class {
   getTask() {
     return this._load({ url: `tasks` })
       .then((response) => response.json())
-      .then(TaskModel.parseTasks);
+      .then(Task.parseTasks);
   }
 
   createTask(task) {
