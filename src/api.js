@@ -1,3 +1,5 @@
+import TaskModel from './models/task-model';
+
 const METHOD = {
   GET: `GET`,
   POST: `POST`,
@@ -29,6 +31,16 @@ const API = class {
   }
 
   deleteTask(id) {
+  }
+
+  _load({ url, method = METHOD.GET, body = null, headers = new Headers() }) {
+    headers.append(`Authorization`, this._authorization);
+
+    return fetch(`${this._endPoint}/${url}`, { method, body, headers })
+      .then(checkStatus)
+      .catch((err) => {
+        throw err;
+      });
   }
 
 };
