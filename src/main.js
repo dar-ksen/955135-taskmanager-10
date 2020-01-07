@@ -7,7 +7,7 @@ import BoardController from './controllers/board';
 import FilterController from './controllers/filter';
 import { renderComponent } from './utils/render';
 
-const AUTHORIZATION = `Basic eo0w590ik29889a`;
+const AUTHORIZATION = `Basic dXNlckBwYXNzd29yZA1=`;
 const END_POINT = `https://htmlacademy-es-10.appspot.com/task-manager`;
 
 const dateTo = new Date();

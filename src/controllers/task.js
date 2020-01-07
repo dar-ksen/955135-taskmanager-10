@@ -36,7 +36,7 @@ const parseFormData = (formData) => {
 
   const date = formData.get(`date`);
 
-  return {
+  return new TaskModel({
     'description': formData.get(`text`),
     'dueDate': date ? new Date(date) : null,
     'tags': formData.getAll(`hashtag`),
@@ -47,7 +47,7 @@ const parseFormData = (formData) => {
     'color': formData.get(`color`),
     'is_favorite': false,
     'is_archived': false
-  };
+  });
 };
 
 class TaskController {
@@ -96,8 +96,8 @@ class TaskController {
 
       const formData = this._inEditTaskComponent.getData();
       const data = parseFormData(formData);
+
       this._onDataChange(this, task, data);
-      // this._stopTaskEditing();
     });
 
     this._inEditTaskComponent.setDeleteButtonClickHandler(() => this._onDataChange(this, task, null));

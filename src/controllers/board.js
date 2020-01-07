@@ -147,10 +147,10 @@ export default class BoardController {
     } else {
       this._api.updateTask(replaceableTask.id, replacementTask)
         .then((taskModel) => {
-          const isSuccess = this.__tasksModel.updateTask(replaceableTask, taskModel);
+          const isSuccess = this._tasksModel.updateTask(replaceableTask.id, taskModel);
           if (isSuccess) {
             taskController.render(taskModel, TaskControllerMode.DEFAULT);
-            this._updateTasks(this._showingTasksCount);
+            this._updateTasks(this._showedTasksCount);
           }
         });
     }

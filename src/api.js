@@ -35,7 +35,7 @@ const API = class {
 
   updateTask(id, data) {
     return this._load({
-      url: `task/${id}`,
+      url: `tasks/${id}`,
       method: METHOD.PUT,
       body: JSON.stringify(data.toRAW()),
       headers: new Headers({ 'Content-Type': `application/json` })
