@@ -113,7 +113,13 @@ class TaskController {
   }
 
   _stopTaskEditing() {
-    replaceComponent(this._taskComponent, this._inEditTaskComponent);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
+    this._inEditTaskComponent.reset();
+
+    if (document.contains(this._inEditTaskComponent.getElement())) {
+      replaceComponent(this._taskComponent, this._inEditTaskComponent);
+    }
+
     this._mode = Mode.DEFAULT;
   }
 
