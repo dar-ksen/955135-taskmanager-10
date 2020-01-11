@@ -5,7 +5,7 @@ import { renderComponent, replaceComponent, removeComponent, RenderPosition } fr
 import { COLOR, DAYS } from '../const.js';
 
 const Mode = {
-  ADDING: `adding`,
+  CREATING: `creating`,
   DEFAULT: `default`,
   EDIT: `edit`,
 };
@@ -113,7 +113,7 @@ class TaskController {
         }
         break;
       }
-      case Mode.ADDING: {
+      case Mode.CREATING: {
         if (oldInEditTaskComponent && oldTaskComponent) {
           removeComponent(oldTaskComponent);
           removeComponent(oldInEditTaskComponent);
@@ -158,7 +158,7 @@ class TaskController {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
 
     if (isEscKey) {
-      if (this._mode === Mode.ADDING) {
+      if (this._mode === Mode.CREATING) {
         this._onDataChange(this, EMPTY_TASK, null);
       }
       this._stopTaskEditing();
