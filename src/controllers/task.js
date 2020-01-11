@@ -33,14 +33,13 @@ const parseFormData = (formData) => {
     acc[dayName] = false;
     return acc;
   }, {});
-
   const date = formData.get(`date`);
 
   return new TaskModel({
     'description': formData.get(`text`),
     'dueDate': date ? new Date(date) : null,
     'tags': formData.getAll(`hashtag`),
-    'repeatingDays': formData.getAll(`repeat`).reduce((acc, dayName) => {
+    'repeating_days': formData.getAll(`repeat`).reduce((acc, dayName) => {
       acc[dayName] = true;
       return acc;
     }, repeatingDays),
