@@ -94,12 +94,12 @@ export default class BoardController {
     this._creatingTask.render(EMPTY_TASK, TaskControllerMode.CREATING);
   }
 
-  deleteTask(task) {
+  _deleteTask(task) {
     this._tasksModel.removeTask(task.id);
     this._rerender();
   }
 
-  addTask(taskController, nextTask) {
+  _addTask(taskController, nextTask) {
     this._tasksModel.addTask(nextTask);
     taskController.render(nextTask, TaskControllerMode.DEFAULT);
 
@@ -110,7 +110,7 @@ export default class BoardController {
     this._showedTasksCount = this._showedTaskControllers.length;
   }
 
-  editTask(task, nextTask) {
+  _editTask(task, nextTask) {
     this._api.updateTask(task.id, nextTask)
         .then((taskModel) => {
           const isSuccess = this._tasksModel.updateTask(task.id, taskModel);
@@ -145,9 +145,9 @@ export default class BoardController {
     this._loadMoreButtonComponent.setClickHandler(this._onLoadMoreButtonClick);
   }
 
-  _rerender(taskCount = this._showedTasksCount) {
+  _rerender(tasksCount = this._showedTasksCount) {
     this._removeTasks();
-    this._renderTasks(take(this._tasksModel.getTasks(), taskCount));
+    this._renderTasks(take(this._tasksModel.getTasks(), tasksCount));
     this._renderLoadMoreButton();
   }
 
@@ -164,17 +164,17 @@ export default class BoardController {
     }
 
     if (isDeletingTask) {
-      this.deleteTask(task);
+      this._deleteTask(task);
       return;
     }
 
     if (isCreatingTask) {
-      this.addTask(taskController, nextTask);
+      this._addTask(taskController, nextTask);
       return;
     }
 
     if (isEditingTask) {
-      this.editTask(task, nextTask);
+      this._editTask(task, nextTask);
       return;
     }
   }

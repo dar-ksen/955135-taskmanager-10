@@ -1,6 +1,7 @@
 import TaskComponent from "../components/task";
 import InEditTaskComponent from "../components/task-edit";
 import TaskModel from '../models/task';
+import flatpickr from 'flatpickr';
 import { renderComponent, replaceComponent, removeComponent, RenderPosition } from "../utils/render";
 import { COLOR, DAYS } from '../const.js';
 
@@ -36,16 +37,16 @@ const parseFormData = (formData) => {
   const date = formData.get(`date`);
 
   return new TaskModel({
-    'description': formData.get(`text`),
-    'dueDate': date ? new Date(date) : null,
-    'tags': formData.getAll(`hashtag`),
-    'repeating_days': formData.getAll(`repeat`).reduce((acc, dayName) => {
+    description: formData.get(`text`),
+    dueDate: date ? flatpickr.parseDate(date, `d F y H:i`) : null,
+    tags: formData.getAll(`hashtag`),
+    repeatingDays: formData.getAll(`repeat`).reduce((acc, dayName) => {
       acc[dayName] = true;
       return acc;
     }, repeatingDays),
-    'color': formData.get(`color`),
-    'is_favorite': false,
-    'is_archived': false
+    color: formData.get(`color`),
+    isFavored: false,
+    isArchived: false
   });
 };
 
