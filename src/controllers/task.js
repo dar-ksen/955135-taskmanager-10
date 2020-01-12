@@ -5,6 +5,8 @@ import flatpickr from 'flatpickr';
 import { renderComponent, replaceComponent, removeComponent, RenderPosition } from "../utils/render";
 import { COLOR, DAYS } from '../const.js';
 
+const SHAKE_ANIMATION_TIMEOUT = 600;
+
 const Mode = {
   CREATING: `creating`,
   DEFAULT: `default`,
@@ -144,6 +146,21 @@ class TaskController {
     removeComponent(this._inEditTaskComponent);
     removeComponent(this._taskComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
+  }
+
+  shake() {
+    this._inEditTaskComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+    this._taskComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+
+    setTimeout(() => {
+      this._inEditTaskComponent.getElement().style.animation = ``;
+      this._taskComponent.getElement().style.animation = ``;
+
+      this._inEditTaskComponent.setData({
+        saveButtonText: `Save`,
+        deleteButtonText: `Delete`,
+      });
+    }, SHAKE_ANIMATION_TIMEOUT);
   }
 
   _startTaskEditing() {
