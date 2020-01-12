@@ -150,11 +150,15 @@ class TaskController {
 
   shake() {
     this._inEditTaskComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+    this._inEditTaskComponent.getElement().querySelector(`.card__inner`).style.outline = `3px solid red`;
     this._taskComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+    this._taskComponent.getElement().querySelector(`.card__inner`).style.outline = `3px solid red`;
 
     setTimeout(() => {
       this._inEditTaskComponent.getElement().style.animation = ``;
+      this._inEditTaskComponent.getElement().querySelector(`.card__inner`).style.outline = ``;
       this._taskComponent.getElement().style.animation = ``;
+      this._taskComponent.getElement().querySelector(`.card__inner`).style.outline = ``;
 
       this._inEditTaskComponent.setData({
         saveButtonText: `Save`,
