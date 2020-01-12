@@ -94,13 +94,23 @@ class TaskController {
     this._inEditTaskComponent.setSubmitHandler((evt) => {
       evt.preventDefault();
 
+      this._inEditTaskComponent.setData({
+        saveButtonText: `Saving...`,
+      });
+
       const formData = this._inEditTaskComponent.getData();
       const data = parseFormData(formData);
 
       this._onDataChange(this, task, data);
     });
 
-    this._inEditTaskComponent.setDeleteButtonClickHandler(() => this._onDataChange(this, task, null));
+    this._inEditTaskComponent.setDeleteButtonClickHandler(() => {
+      this._inEditTaskComponent.setData({
+        deleteButtonText: `Deleting...`,
+      });
+
+      this._onDataChange(this, task, null);
+    });
 
     switch (mode) {
       case Mode.DEFAULT: {
