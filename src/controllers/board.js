@@ -94,11 +94,14 @@ export default class BoardController {
     this._creatingTask.render(EMPTY_TASK, TaskControllerMode.CREATING);
   }
 
-  _deleteTask(task) {
+  _deleteTask(taskController, task) {
     this._api.deleteTask(task.id)
     .then(() => {
       this._tasksModel.removeTask(task.id);
       this._rerender();
+    })
+    .catch(() => {
+      taskController.shake();
     });
   }
 
@@ -113,16 +116,22 @@ export default class BoardController {
 
         this._showedTaskControllers = [taskController, ...this._showedTaskControllers];
         this._showedTasksCount = this._showedTaskControllers.length;
+      })
+      .catch(() => {
+        taskController.shake();
       });
   }
 
-  _editTask(task, nextTask) {
+  _editTask(taskController, task, nextTask) {
     this._api.updateTask(task.id, nextTask)
         .then((taskModel) => {
           const isSuccess = this._tasksModel.updateTask(task.id, taskModel);
           if (isSuccess) {
             this._rerender();
           }
+        })
+        .catch(() => {
+          taskController.shake();
         });
   }
 
@@ -170,7 +179,7 @@ export default class BoardController {
     }
 
     if (isDeletingTask) {
-      this._deleteTask(task);
+      this._deleteTask(taskController, task);
       return;
     }
 
@@ -180,7 +189,7 @@ export default class BoardController {
     }
 
     if (isEditingTask) {
-      this._editTask(task, nextTask);
+      this._editTask(taskController, task, nextTask);
       return;
     }
   }
