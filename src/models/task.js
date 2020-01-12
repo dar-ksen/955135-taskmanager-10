@@ -2,7 +2,7 @@ class TaskModel {
   constructor(data) {
     this.id = data.id;
     this.description = data.description;
-    this.dueDate = data[`due_date`] ? new Date(data[`due_date`]) : null;
+    this.dueDate = data.dueDate;
     this.tags = data.tags;
     this.repeatingDays = data.repeatingDays;
     this.color = data.color;
