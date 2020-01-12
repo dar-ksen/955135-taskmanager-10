@@ -275,7 +275,7 @@ export default class InEditTask extends AbstractSmartComponent {
   }
 
   setData(data) {
-    this._externalData = { ...DefaultData, data };
+    this._externalData = { ...DefaultData, ...data };
     this.rerender();
   }
 
