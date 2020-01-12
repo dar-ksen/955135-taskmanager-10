@@ -61,7 +61,7 @@ const getRepeatingDaysTemplate = (days, repeatingDays) => {
 };
 
 const getHashtagsTemplate = (tags) => {
-  return tags
+  return Array.from(tags)
     .map((tag) => {
       return (
         `<span class="card__hashtag-inner">
@@ -191,26 +191,6 @@ const getTaskEditTemplate = (task, options = {}) => {
   );
 };
 
-const parseFormData = (formData) => {
-  const repeatingDays = DAYS.reduce((acc, dayName) => {
-    acc[dayName] = false;
-    return acc;
-  }, {});
-
-  const date = formData.get(`date`);
-
-  return {
-    description: formData.get(`text`),
-    color: formData.get(`color`),
-    tags: formData.getAll(`hashtag`),
-    dueDate: date ? new Date(date) : null,
-    repeatingDays: formData.getAll(`repeat`).reduce((acc, dayName) => {
-      acc[dayName] = true;
-      return acc;
-    }, repeatingDays),
-  };
-};
-
 export default class InEditTask extends AbstractSmartComponent {
   constructor(task) {
     super();
@@ -281,9 +261,8 @@ export default class InEditTask extends AbstractSmartComponent {
 
   getData() {
     const form = this.getElement().querySelector(`.js-card__form`);
-    const formData = new FormData(form);
 
-    return parseFormData(formData);
+    return new FormData(form);
   }
 
   setDeleteButtonClickHandler(handler) {

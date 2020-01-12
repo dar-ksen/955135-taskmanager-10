@@ -1,11 +1,11 @@
 import TaskComponent from "../components/task";
 import InEditTaskComponent from "../components/task-edit";
-
+import TaskModel from '../models/task';
 import { renderComponent, replaceComponent, removeComponent, RenderPosition } from "../utils/render";
-import { COLOR } from '../const.js';
+import { COLOR, DAYS } from '../const.js';
 
 const Mode = {
-  ADDING: `adding`,
+  CREATING: `creating`,
   DEFAULT: `default`,
   EDIT: `edit`,
 };
@@ -26,6 +26,27 @@ const EMPTY_TASK = {
   color: COLOR.BLACK,
   isFavored: false,
   isArchived: false,
+};
+
+const parseFormData = (formData) => {
+  const repeatingDays = DAYS.reduce((acc, dayName) => {
+    acc[dayName] = false;
+    return acc;
+  }, {});
+  const date = formData.get(`date`);
+
+  return new TaskModel({
+    'description': formData.get(`text`),
+    'dueDate': date ? new Date(date) : null,
+    'tags': formData.getAll(`hashtag`),
+    'repeating_days': formData.getAll(`repeat`).reduce((acc, dayName) => {
+      acc[dayName] = true;
+      return acc;
+    }, repeatingDays),
+    'color': formData.get(`color`),
+    'is_favorite': false,
+    'is_archived': false
+  });
 };
 
 class TaskController {
@@ -56,19 +77,28 @@ class TaskController {
     });
 
     this._taskComponent.setFavoritesButtonClickHandler(() => {
-      this._onDataChange(this, task, { ...task, isFavored: !task.isFavored });
+      const newTask = TaskModel.clone(task);
+      newTask.isFavored = !newTask.isFavored;
+
+      this._onDataChange(this, task, newTask);
     });
 
     this._taskComponent.setArchiveButtonClickHandler(() => {
-      this._onDataChange(this, task, { ...task, isArchived: !task.isArchived });
+      const newTask = TaskModel.clone(task);
+      newTask.isArchived = !newTask.isArchived;
+
+      this._onDataChange(this, task, newTask);
     });
 
     this._inEditTaskComponent.setSubmitHandler((evt) => {
       evt.preventDefault();
-      const data = this._inEditTaskComponent.getData();
-      this._onDataChange(this, task, { ...task, ...data });
-      this._stopTaskEditing();
+
+      const formData = this._inEditTaskComponent.getData();
+      const data = parseFormData(formData);
+
+      this._onDataChange(this, task, data);
     });
+
     this._inEditTaskComponent.setDeleteButtonClickHandler(() => this._onDataChange(this, task, null));
 
     switch (mode) {
@@ -82,7 +112,7 @@ class TaskController {
         }
         break;
       }
-      case Mode.ADDING: {
+      case Mode.CREATING: {
         if (oldInEditTaskComponent && oldTaskComponent) {
           removeComponent(oldTaskComponent);
           removeComponent(oldInEditTaskComponent);
@@ -113,7 +143,13 @@ class TaskController {
   }
 
   _stopTaskEditing() {
-    replaceComponent(this._taskComponent, this._inEditTaskComponent);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
+    this._inEditTaskComponent.reset();
+
+    if (document.contains(this._inEditTaskComponent.getElement())) {
+      replaceComponent(this._taskComponent, this._inEditTaskComponent);
+    }
+
     this._mode = Mode.DEFAULT;
   }
 
@@ -121,7 +157,7 @@ class TaskController {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
 
     if (isEscKey) {
-      if (this._mode === Mode.ADDING) {
+      if (this._mode === Mode.CREATING) {
         this._onDataChange(this, EMPTY_TASK, null);
       }
       this._stopTaskEditing();

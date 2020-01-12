@@ -2,7 +2,7 @@ import { TaskFiltrationService } from '../services/task-filtration';
 import { FilterType } from '../const';
 import { replace } from '../utils/common';
 
-class TaskModel {
+class TasksModel {
   constructor() {
     this._tasks = [];
 
@@ -22,6 +22,7 @@ class TaskModel {
 
   setTasks(tasks) {
     this._tasks = Array.from(tasks);
+    this._callHandlers(this._dataChangeHandlers);
   }
 
   setFilter(filterType) {
@@ -75,4 +76,4 @@ class TaskModel {
   }
 }
 
-export { TaskModel as default };
+export { TasksModel as default };

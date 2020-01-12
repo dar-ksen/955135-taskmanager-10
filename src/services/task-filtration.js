@@ -31,7 +31,7 @@ const getRepeatingTasks = (tasks) => {
 };
 
 const getTasksWithHashtags = (tasks) => {
-  return tasks.filter((task) => task.tags.length);
+  return tasks.filter((task) => task.tags.size);
 };
 
 const getTasksInOneDay = (tasks, date) => {

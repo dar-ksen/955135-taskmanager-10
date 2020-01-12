@@ -4,7 +4,7 @@ import he from 'he';
 import { formatTime, formatDate, isRepeating, isOverdueDate } from '../utils/common';
 
 const getHashtagsTemplate = (tags) => {
-  return tags.map((tag) => {
+  return Array.from(tags).map((tag) => {
     return (
       `<span class="card__hashtag-inner">
           <span class="card__hashtag-name">

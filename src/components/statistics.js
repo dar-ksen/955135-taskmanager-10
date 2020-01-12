@@ -300,10 +300,10 @@ const getStatisticsTemplate = ({ tasks, dateFrom, dateTo }) => {
 };
 
 class Statistics extends AbstractSmartComponent {
-  constructor({ taskModel, dateFrom, dateTo }) {
+  constructor({ tasksModel, dateFrom, dateTo }) {
     super();
 
-    this._taskModel = taskModel;
+    this._tasksModel = tasksModel;
     this._dateFrom = dateFrom;
     this._dateTo = dateTo;
 
@@ -317,17 +317,17 @@ class Statistics extends AbstractSmartComponent {
   }
 
   getTemplate() {
-    return getStatisticsTemplate({ tasks: this._taskModel.getTasks(), dateFrom: this._dateFrom, dateTo: this._dateTo });
+    return getStatisticsTemplate({ tasks: this._tasksModel.getTasks(), dateFrom: this._dateFrom, dateTo: this._dateTo });
   }
 
   show() {
     super.show();
 
-    this.rerender(this._taskModel, this._dateFrom, this._dateTo);
+    this.rerender(this._tasksModel, this._dateFrom, this._dateTo);
   }
 
   rerender(taskModel, dateFrom, dateTo) {
-    this._taskModel = taskModel;
+    this._tasksModel = taskModel;
     this._dateFrom = dateFrom;
     this._dateTo = dateTo;
 
@@ -349,9 +349,9 @@ class Statistics extends AbstractSmartComponent {
 
     this._resetCharts();
 
-    this._daysChart = renderDaysChart(daysCtx, this._taskModel.getTasks(), this._dateFrom, this._dateTo);
-    this._tagsChart = renderTagsChart(tagsCtx, this._taskModel.getTasks());
-    this._colorsChart = renderColorsChart(colorsCtx, this._taskModel.getTasks());
+    this._daysChart = renderDaysChart(daysCtx, this._tasksModel.getTasks(), this._dateFrom, this._dateTo);
+    this._tagsChart = renderTagsChart(tagsCtx, this._tasksModel.getTasks());
+    this._colorsChart = renderColorsChart(colorsCtx, this._tasksModel.getTasks());
   }
 
   _resetCharts() {
@@ -383,7 +383,7 @@ class Statistics extends AbstractSmartComponent {
       mode: `range`,
       onChange: (dates) => {
         if (dates.length === 2) {
-          this.rerender(this._taskModel, dates[0], dates[1]);
+          this.rerender(this._tasksModel, dates[0], dates[1]);
         }
       }
     });
