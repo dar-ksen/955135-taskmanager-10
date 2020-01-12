@@ -95,8 +95,11 @@ export default class BoardController {
   }
 
   _deleteTask(task) {
-    this._tasksModel.removeTask(task.id);
-    this._rerender();
+    this._api.deleteTask(task.id)
+    .then(() => {
+      this._tasksModel.removeTask(task.id);
+      this._rerender();
+    });
   }
 
   _addTask(taskController, nextTask) {
