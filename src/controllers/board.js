@@ -100,14 +100,17 @@ export default class BoardController {
   }
 
   _addTask(taskController, nextTask) {
-    this._tasksModel.addTask(nextTask);
-    taskController.render(nextTask, TaskControllerMode.DEFAULT);
+    this._api.createTask(nextTask)
+      .then((taskModel) => {
+        this._tasksModel.addTask(taskModel);
+        taskController.render(taskModel, TaskControllerMode.DEFAULT);
 
-    const destroyedTask = this._showedTaskControllers.pop();
-    destroyedTask.destroy();
+        const destroyedTask = this._showedTaskControllers.pop();
+        destroyedTask.destroy();
 
-    this._showedTaskControllers = [taskController, ...this._showedTaskControllers];
-    this._showedTasksCount = this._showedTaskControllers.length;
+        this._showedTaskControllers = [taskController, ...this._showedTaskControllers];
+        this._showedTasksCount = this._showedTaskControllers.length;
+      });
   }
 
   _editTask(task, nextTask) {
