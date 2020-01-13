@@ -94,29 +94,44 @@ export default class BoardController {
     this._creatingTask.render(EMPTY_TASK, TaskControllerMode.CREATING);
   }
 
-  deleteTask(task) {
-    this._tasksModel.removeTask(task.id);
-    this._rerender();
+  _deleteTask(taskController, task) {
+    this._api.deleteTask(task.id)
+    .then(() => {
+      this._tasksModel.removeTask(task.id);
+      this._rerender();
+    })
+    .catch(() => {
+      taskController.shake();
+    });
   }
 
-  addTask(taskController, nextTask) {
-    this._tasksModel.addTask(nextTask);
-    taskController.render(nextTask, TaskControllerMode.DEFAULT);
+  _addTask(taskController, nextTask) {
+    this._api.createTask(nextTask)
+      .then((taskModel) => {
+        this._tasksModel.addTask(taskModel);
+        taskController.render(taskModel, TaskControllerMode.DEFAULT);
 
-    const destroyedTask = this._showedTaskControllers.pop();
-    destroyedTask.destroy();
+        const destroyedTask = this._showedTaskControllers.pop();
+        destroyedTask.destroy();
 
-    this._showedTaskControllers = [taskController, ...this._showedTaskControllers];
-    this._showedTasksCount = this._showedTaskControllers.length;
+        this._showedTaskControllers = [taskController, ...this._showedTaskControllers];
+        this._showedTasksCount = this._showedTaskControllers.length;
+      })
+      .catch(() => {
+        taskController.shake();
+      });
   }
 
-  editTask(task, nextTask) {
+  _editTask(taskController, task, nextTask) {
     this._api.updateTask(task.id, nextTask)
         .then((taskModel) => {
           const isSuccess = this._tasksModel.updateTask(task.id, taskModel);
           if (isSuccess) {
             this._rerender();
           }
+        })
+        .catch(() => {
+          taskController.shake();
         });
   }
 
@@ -145,9 +160,9 @@ export default class BoardController {
     this._loadMoreButtonComponent.setClickHandler(this._onLoadMoreButtonClick);
   }
 
-  _rerender(taskCount = this._showedTasksCount) {
+  _rerender(tasksCount = this._showedTasksCount) {
     this._removeTasks();
-    this._renderTasks(take(this._tasksModel.getTasks(), taskCount));
+    this._renderTasks(take(this._tasksModel.getTasks(), tasksCount));
     this._renderLoadMoreButton();
   }
 
@@ -164,17 +179,17 @@ export default class BoardController {
     }
 
     if (isDeletingTask) {
-      this.deleteTask(task);
+      this._deleteTask(taskController, task);
       return;
     }
 
     if (isCreatingTask) {
-      this.addTask(taskController, nextTask);
+      this._addTask(taskController, nextTask);
       return;
     }
 
     if (isEditingTask) {
-      this.editTask(task, nextTask);
+      this._editTask(taskController, task, nextTask);
       return;
     }
   }

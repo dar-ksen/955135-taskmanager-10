@@ -27,11 +27,16 @@ const API = class {
       .then(TaskModel.parseTasks);
   }
 
-  /*
-  TODO:
   createTask(task) {
+    return this._load({
+      url: `tasks`,
+      method: METHOD.POST,
+      body: JSON.stringify(task.toRAW()),
+      headers: new Headers({ 'Content-Type': `application/json` })
+    })
+      .then((response) => response.json())
+      .then(TaskModel.parseTask);
   }
-  */
 
   updateTask(id, data) {
     return this._load({
@@ -44,11 +49,9 @@ const API = class {
       .then(TaskModel.parseTask);
   }
 
-  /*
-   TODO:
   deleteTask(id) {
+    return this._load({ url: `tasks/${id}`, method: METHOD.DELETE });
   }
-  */
 
   _load({ url, method = METHOD.GET, body = null, headers = new Headers() }) {
     headers.append(`Authorization`, this._authorization);

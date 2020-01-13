@@ -1,13 +1,13 @@
 class TaskModel {
   constructor(data) {
-    this.id = data[`id`];
-    this.description = data[`description`] || ``;
-    this.dueDate = data[`due_date`] ? new Date(data[`due_date`]) : null;
-    this.tags = new Set(data[`tags`] || []);
-    this.repeatingDays = data[`repeating_days`];
-    this.color = data[`color`];
-    this.isFavored = Boolean(data[`is_favorite`]);
-    this.isArchived = Boolean(data[`is_archived`]);
+    this.id = data.id;
+    this.description = data.description;
+    this.dueDate = data.dueDate;
+    this.tags = data.tags;
+    this.repeatingDays = data.repeatingDays;
+    this.color = data.color;
+    this.isFavored = data.isFavored;
+    this.isArchived = data.isArchived;
   }
 
   toRAW() {
@@ -24,7 +24,16 @@ class TaskModel {
   }
 
   static parseTask(data) {
-    return new TaskModel(data);
+    return new TaskModel({
+      id: data[`id`],
+      description: data[`description`] || ``,
+      dueDate: data[`due_date`] ? new Date(data[`due_date`]) : null,
+      tags: new Set(data[`tags`] || []),
+      repeatingDays: data[`repeating_days`],
+      color: data[`color`],
+      isFavored: Boolean(data[`is_favorite`]),
+      isArchived: Boolean(data[`is_archived`]),
+    });
   }
 
   static parseTasks(data) {
@@ -32,7 +41,7 @@ class TaskModel {
   }
 
   static clone(data) {
-    return new TaskModel(data.toRAW());
+    return new TaskModel(data);
   }
 }
 

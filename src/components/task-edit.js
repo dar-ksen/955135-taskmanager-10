@@ -11,6 +11,11 @@ import { formatTime, formatDate, isRepeating, isOverdueDate } from '../utils/com
 const MIN_DESCRIPTION_LENGTH = 1;
 const MAX_DESCRIPTION_LENGTH = 140;
 
+const DefaultData = {
+  deleteButtonText: `Delete`,
+  saveButtonText: `Save`
+};
+
 const hasValidDescriptionLength = (description) => {
   const length = description.length;
 
@@ -88,7 +93,7 @@ const getHashtagsTemplate = (tags) => {
 
 const getTaskEditTemplate = (task, options = {}) => {
   const { tags, dueDate } = task;
-  const { isDateShowing, isRepeatingTask, activeRepeatingDays, currentDescription, currentColor } = options;
+  const { isDateShowing, isRepeatingTask, activeRepeatingDays, currentDescription, currentColor, externalData } = options;
 
   const description = he.encode(currentDescription);
 
@@ -106,6 +111,9 @@ const getTaskEditTemplate = (task, options = {}) => {
 
   const repeatClass = isRepeatingTask ? `card--repeat` : ``;
   const deadlineClass = isExpired ? `card--deadline` : ``;
+
+  const deleteButtonText = externalData.deleteButtonText;
+  const saveButtonText = externalData.saveButtonText;
 
   return (
     `<article class="card card--edit card--${currentColor} ${repeatClass} ${deadlineClass}">
@@ -182,8 +190,8 @@ const getTaskEditTemplate = (task, options = {}) => {
             </div>
 
             <div class="card__status-btns">
-              <button class="card__save js-card__save" type="submit" ${isSaveButtonDisabled ? `disabled` : ``}>save</button>
-              <button class="card__delete js-card__delete" type="button">delete</button>
+              <button class="card__save js-card__save" type="submit" ${isSaveButtonDisabled ? `disabled` : ``}>${saveButtonText}</button>
+              <button class="card__delete js-card__delete" type="button">${deleteButtonText}</button>
             </div>
           </div>
         </form>
@@ -200,6 +208,7 @@ export default class InEditTask extends AbstractSmartComponent {
     this._isRepeatingTask = isRepeating(task.repeatingDays);
     this._activeRepeatingDays = { ...task.repeatingDays };
     this._currentDescription = task.description;
+    this._externalData = DefaultData;
     this._currentColor = task.color;
     this._flatpickr = null;
     this._submitHandler = null;
@@ -210,14 +219,14 @@ export default class InEditTask extends AbstractSmartComponent {
   }
 
   getTemplate() {
-    const options = {
+    return getTaskEditTemplate(this._task, {
       isDateShowing: this._isDateShowing,
       isRepeatingTask: this._isRepeatingTask,
+      externalData: this._externalData,
       activeRepeatingDays: this._activeRepeatingDays,
       currentDescription: this._currentDescription,
       currentColor: this._currentColor,
-    };
-    return getTaskEditTemplate(this._task, options);
+    });
   }
 
   removeElement() {
@@ -263,6 +272,11 @@ export default class InEditTask extends AbstractSmartComponent {
     const form = this.getElement().querySelector(`.js-card__form`);
 
     return new FormData(form);
+  }
+
+  setData(data) {
+    this._externalData = { ...DefaultData, ...data };
+    this.rerender();
   }
 
   setDeleteButtonClickHandler(handler) {

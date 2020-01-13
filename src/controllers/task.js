@@ -1,8 +1,11 @@
 import TaskComponent from "../components/task";
 import InEditTaskComponent from "../components/task-edit";
 import TaskModel from '../models/task';
+import flatpickr from 'flatpickr';
 import { renderComponent, replaceComponent, removeComponent, RenderPosition } from "../utils/render";
 import { COLOR, DAYS } from '../const.js';
+
+const SHAKE_ANIMATION_TIMEOUT = 600;
 
 const Mode = {
   CREATING: `creating`,
@@ -36,16 +39,16 @@ const parseFormData = (formData) => {
   const date = formData.get(`date`);
 
   return new TaskModel({
-    'description': formData.get(`text`),
-    'dueDate': date ? new Date(date) : null,
-    'tags': formData.getAll(`hashtag`),
-    'repeating_days': formData.getAll(`repeat`).reduce((acc, dayName) => {
+    description: formData.get(`text`),
+    dueDate: date ? flatpickr.parseDate(date, `d F y H:i`) : null,
+    tags: formData.getAll(`hashtag`),
+    repeatingDays: formData.getAll(`repeat`).reduce((acc, dayName) => {
       acc[dayName] = true;
       return acc;
     }, repeatingDays),
-    'color': formData.get(`color`),
-    'is_favorite': false,
-    'is_archived': false
+    color: formData.get(`color`),
+    isFavored: false,
+    isArchived: false
   });
 };
 
@@ -93,13 +96,23 @@ class TaskController {
     this._inEditTaskComponent.setSubmitHandler((evt) => {
       evt.preventDefault();
 
+      this._inEditTaskComponent.setData({
+        saveButtonText: `Saving...`,
+      });
+
       const formData = this._inEditTaskComponent.getData();
       const data = parseFormData(formData);
 
       this._onDataChange(this, task, data);
     });
 
-    this._inEditTaskComponent.setDeleteButtonClickHandler(() => this._onDataChange(this, task, null));
+    this._inEditTaskComponent.setDeleteButtonClickHandler(() => {
+      this._inEditTaskComponent.setData({
+        deleteButtonText: `Deleting...`,
+      });
+
+      this._onDataChange(this, task, null);
+    });
 
     switch (mode) {
       case Mode.DEFAULT: {
@@ -133,6 +146,25 @@ class TaskController {
     removeComponent(this._inEditTaskComponent);
     removeComponent(this._taskComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
+  }
+
+  shake() {
+    this._inEditTaskComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+    this._inEditTaskComponent.getElement().querySelector(`.card__inner`).style.outline = `3px solid red`;
+    this._taskComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+    this._taskComponent.getElement().querySelector(`.card__inner`).style.outline = `3px solid red`;
+
+    setTimeout(() => {
+      this._inEditTaskComponent.getElement().style.animation = ``;
+      this._inEditTaskComponent.getElement().querySelector(`.card__inner`).style.outline = ``;
+      this._taskComponent.getElement().style.animation = ``;
+      this._taskComponent.getElement().querySelector(`.card__inner`).style.outline = ``;
+
+      this._inEditTaskComponent.setData({
+        saveButtonText: `Save`,
+        deleteButtonText: `Delete`,
+      });
+    }, SHAKE_ANIMATION_TIMEOUT);
   }
 
   _startTaskEditing() {
